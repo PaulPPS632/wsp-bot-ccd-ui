@@ -19,7 +19,10 @@ export const routes: Routes = [
             },{
                 path: 'bases',
                 loadComponent: () => import('./pages/bases/bases.component').then((m) => m.BasesComponent)
-            },
+            },{
+                path: 'masivos',
+                loadComponent: () => import('./pages/masivos/masivos.component').then((m) =>  m.MasivosComponent)
+            }
         ]
     },
 ];

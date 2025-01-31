@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { CardBotComponent } from "../../component/card-bot/card-bot.component";
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Bot } from '../../interfaces/Bot';
+import { BotsService } from '../../services/bots.service';
+import { MasivosService } from '../../services/masivos.service';
 
 @Component({
   selector: 'app-bots',
@@ -12,20 +13,24 @@ import { Bot } from '../../interfaces/Bot';
   styleUrl: './bots.component.css'
 })
 export class BotsComponent implements OnInit {
-  apiService = inject(ApiService);
+  botsService = inject(BotsService);
+  masivosServices = inject(MasivosService);
   bots: Bot[] = [];
   newBot ={
     phone:'',
     imagebot:'bot'
   }
+  
+  masivo:number=0;
+
   ngOnInit(): void {
-    this.apiService.getBots().subscribe((res) =>  {
+    this.botsService.getBots().subscribe((res) =>  {
       this.bots = res;
     })
   }
 
   CreateBot(){
-    this.apiService.createBot(this.newBot.phone, this.newBot.imagebot).subscribe((res) =>{
+    this.botsService.createBot(this.newBot.phone, this.newBot.imagebot).subscribe((res) =>{
       Swal.fire({
         title: "Tu coneccion",
         text: `Contectate con este codigo: ${res.pairingCode}`,
@@ -34,7 +39,7 @@ export class BotsComponent implements OnInit {
     })
   }
   StopBots(){
-    this.apiService.stopBots().subscribe((res)=>{
+    this.botsService.stopBots().subscribe((res)=>{
       if(!res.status){
         this.bots.forEach(bot => bot.status = false);
         Swal.fire({
@@ -48,7 +53,7 @@ export class BotsComponent implements OnInit {
     })
   }
   StartBots(){
-    this.apiService.startBots().subscribe((res)=>{
+    this.botsService.startBots().subscribe((res)=>{
       if(res.status){
         this.bots.forEach(bot => bot.status = true);
         Swal.fire({
@@ -67,4 +72,5 @@ export class BotsComponent implements OnInit {
     }
 
   }
+
 }

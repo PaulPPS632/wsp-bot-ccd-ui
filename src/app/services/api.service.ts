@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bot } from '../interfaces/Bot';
+import { Masivo } from '../interfaces/Masivo';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   http = inject(HttpClient);
-  apiUrl: string = 'http://localhost:8000';
+  apiUrl: string = environment.API_URL;
 
   getBots(): Observable<Bot[]>{
     return this.http.get<Bot[]>(`${this.apiUrl}/bots`);
@@ -43,6 +45,11 @@ export class ApiService {
   codigo(bot:Bot):Observable<any>{
     return this.http.post<any>(`${this.apiUrl}/bot/codigo`,{
       port:bot.port
+    })
+  }
+  sendmasivos(masivos: Masivo){
+    return this.http.post<any>(`${this.apiUrl}/bot/masivos`,{
+      masivos
     })
   }
 }

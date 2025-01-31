@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Bot } from '../../interfaces/Bot';
-import { ApiService } from '../../services/api.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { BotsService } from '../../services/bots.service';
 
 @Component({
   selector: 'app-card-bot',
@@ -14,10 +14,10 @@ export class CardBotComponent {
 
   @Input() bot!: Bot;
   @Output() statusChanged = new EventEmitter<Bot>();
-  apiService = inject(ApiService);
+  botsService = inject(BotsService);
   ToggleStatus(){
     if(this.bot.status){
-      this.apiService.offBot(this.bot.containerId).subscribe((res)=>{
+      this.botsService.offBot(this.bot.containerId).subscribe((res)=>{
         if(res.status){
           this.bot.status = false; 
           this.statusChanged.emit(this.bot);
@@ -37,7 +37,7 @@ export class CardBotComponent {
         }
       })
     }else{
-      this.apiService.onBot(this.bot.containerId).subscribe((res)=>{
+      this.botsService.onBot(this.bot.containerId).subscribe((res)=>{
         if(res.status){
           this.bot.status = true; 
           this.statusChanged.emit(this.bot);
@@ -59,7 +59,7 @@ export class CardBotComponent {
     }
   }
   ResetPairingCode(){
-    this.apiService.codigo(this.bot).subscribe((res)=>{
+    this.botsService.codigo(this.bot).subscribe((res)=>{
       this.bot.pairingCode = res.pairingCode;
       this.statusChanged.emit(this.bot);
     })

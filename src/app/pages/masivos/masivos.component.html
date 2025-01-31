@@ -1,0 +1,72 @@
+<div class="flex flex-row flex-nowrap items-center justify-start gap-2">
+    <div>
+        <label class="block" for="cantidad">cantidad:</label>
+        <input id="cantidad" type="number" [(ngModel)]="masivo.cant" class="rounded-md h-10" placeholder="100">
+    </div>
+    <div>
+        <label class="block" for="delaymin">delay min:</label>
+        <input type="number" [(ngModel)]="masivo.delaymin" class="rounded-md h-10" placeholder="">
+    </div>
+    <span class="mt-5">-</span>
+    <div>
+        <label class="block" for="delaymax">delay max:</label>
+        <input type="number" [(ngModel)]="masivo.delaymax" class="rounded-md h-10" placeholder="">
+    </div>
+    <button type="button" class="px-4 py-2 bg-purple-500 text-purple-950 border-purple-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" (click)="SendMasivos()">SEND MASIVOS</button>
+    <button type="button" class="px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" (click)="newMensaje()">NEW MENSAJE</button>
+
+</div>
+@if(toogleNewMensaje){
+    <div class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-2 my-5">
+        <h2>NUEVO MENSAJE</h2>
+        <select name="tipo" id="tipo" [(ngModel)]="NewMensaje.tipo" class="w-40 rounded-md text-lg h-fit">
+          <option value="texto">texto</option>
+          <option value="imagen">imagen</option>
+        </select>
+        <label class="block" for="contentbody">body:</label>
+        <textarea
+          name="contentbody"
+          id="contentbody"
+          class="styletextarea rounded-md"
+          [(ngModel)]="NewMensaje.content.body"
+        ></textarea>
+      
+        @if (NewMensaje.tipo == "imagen") {
+        <label class="block" for="contentfooter">footer:</label>
+        <textarea
+          name="contentfooter"
+          id="contentfooter"
+          class="styletextarea rounded-md"
+          [(ngModel)]="NewMensaje.content.footer"
+        ></textarea>
+        }
+        <button type="button" class="px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" (click)="guardarNewMensaje()" >GUARDAR</button>
+    </div>
+}
+<div class="flex flex-row items-center justify-center gap-5 w-full mt-5">
+    <div
+    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
+    cdkDropList
+    id="selectedList"
+    [cdkDropListData]="selectedMensajes"
+    [cdkDropListConnectedTo]="['initList']"
+    (cdkDropListDropped)="drop($event)"
+    >
+        @for (mensaje of selectedMensajes; track $index) {
+            <app-cardmensajes cdkDrag [mensaje]="mensaje" (MensajeChange)="deleteMasivoSelected($event)"/>
+        }
+    </div>
+    <div
+    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
+    cdkDropList
+    id="initList"
+    [cdkDropListData]="listaMensajes"
+    [cdkDropListConnectedTo]="['selectedList']"
+    (cdkDropListDropped)="drop($event)"
+    >
+        @for (mensaje of listaMensajes; track $index) {
+            <app-cardmensajes cdkDrag [mensaje]="mensaje" (MensajeChange)="deleteMasivo($event)"/>
+        }
+    </div>
+</div>
+
