@@ -22,6 +22,9 @@ export const routes: Routes = [
             },{
                 path: 'masivos',
                 loadComponent: () => import('./pages/masivos/masivos.component').then((m) =>  m.MasivosComponent)
+            },{
+                path: 'flows',
+                loadComponent: () => import('./pages/flows/flows.component').then((m) =>  m.FlowsComponent)
             }
         ]
     },

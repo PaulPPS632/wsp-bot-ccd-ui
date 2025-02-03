@@ -1,0 +1,93 @@
+<div class="flex flex-row flex-nowrap justify-start items-center gap-2">
+    <div>
+        <label class="block" for="cantidad">name:</label>
+        <input type="text" name="name" id="name" class="rounded-md h-10" [(ngModel)]="NewFlow.name" />
+    </div>
+  <button type="button" (click)="CrearFlow()" class="mt-4 px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
+</div>
+@if(!flagModalNewMensaje){
+    <button type="button" (click)="toggleflagModalNewMensaje()" class="px-4 py-2 bg-teal-500 text-teal-950 border-teal-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >AGREGAR MENSAJE</button>
+}
+<app-modal [title]="'Crear Mensaje'" [(isOpen)]="flagModalNewMensaje">
+  <div
+    class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-2 my-5"
+  >
+    <h2>NUEVO MENSAJE</h2>
+    <select
+      name="tipo"
+      id="tipo"
+      [(ngModel)]="NewMensaje.tipo"
+      class="w-40 rounded-md text-lg h-fit"
+    >
+      <option value="texto">texto</option>
+      <option value="imagen">imagen</option>
+    </select>
+    <label class="block" for="contentbody">body:</label>
+    <textarea
+      name="contentbody"
+      id="contentbody"
+      class="styletextarea rounded-md"
+      [(ngModel)]="NewMensaje.content.body"
+    ></textarea>
+
+    @if (NewMensaje.tipo == "imagen") {
+    <label class="block" for="contentfooter">footer:</label>
+    <textarea
+      name="contentfooter"
+      id="contentfooter"
+      class="styletextarea rounded-md"
+      [(ngModel)]="NewMensaje.content.footer"
+    ></textarea>
+    }
+    <button
+      type="button"
+      class="px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all"
+      (click)="addNewMensaje()"
+    >
+      GUARDAR
+    </button>
+  </div>
+</app-modal>
+<div
+  class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
+>
+  @for (mensaje of NewFlow.mensajes; track $index) {
+  <app-cardmensajes [mensaje]="mensaje" />
+  }
+</div>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table
+    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-teal-600/55 dark:bg-gray-700 dark:text-gray-400"
+    >
+    
+      <tr>
+        <th scope="col" class="px-6 py-3">id</th>
+        <th scope="col" class="px-6 py-3">name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (flows of CurrentFlows; track $index) {
+      <tr
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+      <td class="px-6 py-4">
+        {{ flows.id }}
+      </td>
+        <td class="px-6 py-4">
+          {{ flows.name }}
+        </td>
+      </tr>
+      }@empty {
+      <tr
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <td class="px-6 py-4">No hay datos disponibles.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

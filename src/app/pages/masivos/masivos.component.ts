@@ -16,37 +16,34 @@ import {
 import { CommonModule } from '@angular/common';
 import { MensajesService } from '../../services/mensajes.service';
 import { MasivosService } from '../../services/masivos.service';
+import { Flows } from '../../interfaces/Flows';
+import { CardFlowsComponent } from "../../component/card-flows/card-flows.component";
+import { FlowsService } from '../../services/flows.service';
+import { LeadsService } from '../../services/leads.service';
 @Component({
   selector: 'app-masivos',
-  imports: [FormsModule, CardmensajesComponent, CdkDropList, CdkDrag, CommonModule],
+  imports: [FormsModule, CdkDropList, CdkDrag, CommonModule, CardFlowsComponent],
   templateUrl: './masivos.component.html',
   styleUrl: './masivos.component.css',
 })
 export class MasivosComponent implements OnInit {
 
   masivosService = inject(MasivosService);
-  mensajesService = inject(MensajesService);
-  listaMensajes: Mensaje[] = [];
-  selectedMensajes: Mensaje[]=[];
+  flowsService = inject(FlowsService);
+  leadsService = inject(LeadsService);
+
+  listaFlows: Flows[] = [];
+  selectedFlows: Flows[]=[];
   masivo: Masivo = {
     cant: 0,
     delaymin: 0,
     delaymax: 30,
-    mensajes: [],
+    flows: [],
   };
-  NewMensaje: Mensaje = {
-    id:'',
-    tipo: 'texto',
-    content: {
-      body: '',
-      footer: '',
-    },
-  };
-  toogleNewMensaje:boolean = false;
   ngOnInit(): void {
-this.cargarMensajes();
+    this.cargarFlows();
   }
-  drop(event: CdkDragDrop<Mensaje[]>){
+  drop(event: CdkDragDrop<Flows[]>){
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -58,18 +55,13 @@ this.cargarMensajes();
       );
     }
   }
-  newMensaje() {
-    this.NewMensaje.id = uuidv4();
-    this.masivo.mensajes.push(this.NewMensaje);
-    this.togglemensaje();
-  }
-  cargarMensajes(){
-    this.mensajesService.listar().subscribe((res) => {
-      this.listaMensajes = res.mensajes;
+  cargarFlows(){
+    this.flowsService.listar().subscribe((res) => {
+      this.listaFlows = res.flows;
     })
   }
   SendMasivos() {
-    this.masivo.mensajes = this.selectedMensajes;
+    this.masivo.flows = this.selectedFlows;
     this.masivosService.sendmasivos(this.masivo).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
@@ -77,29 +69,24 @@ this.cargarMensajes();
         icon: 'success',
         timer: 1500,
       });
-      this.selectedMensajes = [];
-      this.cargarMensajes();
+      this.selectedFlows = [];
+      this.cargarFlows();
     });
   }
-  deleteMasivo(currentmensaje: Mensaje){
-    this.listaMensajes = this.listaMensajes.filter((mensaje) => mensaje.id != currentmensaje.id)
-  }
-  deleteMasivoSelected(currentmensaje: Mensaje){
-    this.selectedMensajes = this.selectedMensajes.filter((mensaje) => mensaje.id != currentmensaje.id)
-  }
-  guardarNewMensaje(){
-    this.listaMensajes.push(this.NewMensaje);
-    this.togglemensaje();
-    this.mensajesService.create(this.NewMensaje).subscribe((res) => {
-      Swal.fire({
-        title: 'ESTADO',
-        text: res.message,
-        icon: 'success',
-        timer: 1500,
-      });
-    })
-  }
-  togglemensaje(){
-    this.toogleNewMensaje = !this.toogleNewMensaje;
-  }
+
+downloadExcel() {
+  this.leadsService.excel().subscribe(blob => {
+    const a = document.createElement('a');
+    const url = window.URL.createObjectURL(blob);
+    
+    a.href = url;
+    a.download = `leads_${new Date().toISOString()}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Liberar recursos
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  });
+}
 }
