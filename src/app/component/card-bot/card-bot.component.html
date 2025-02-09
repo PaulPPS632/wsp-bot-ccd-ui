@@ -1,20 +1,17 @@
 <div class="mockup-phone">
     <div class="camera"></div>
-    <div class="display bg-[#3185f7] flex items-center justify-center p-4">
+    <div class="display bg-gray-200 flex items-center justify-center p-4"
+    
+    >
       <div class="card w-full bg-green shadow-xl rounded-lg p-4">
         <!-- Ícono Superior -->
-        <div class="flex justify-center mb-4">
-          <div class="bg-[#3185f7] rounded-full">
-            <app-bender-icon [svgClasses]="'w-20 text-white'"/>
-          </div>
+        <div class="mx-auto w-fit h-fit flex justify-center mb-4 rounded-full" [ngStyle]="{'background-color': bot.tipo === 'bot' ? '#3185f7' : (bot.tipo === 'responder' ? '#800080' : '')}">
+          <app-bender-icon [svgClasses]="'w-20 text-white'"/>
         </div>
   
         <!-- Información del Bot -->
         <div class="text-center">
-          <!-- Port -->
-          <p class="text-sm text-gray-400 uppercase">Port</p>
-          <p class="text-lg font-semibold text-gray-800">{{ bot.port }}</p>
-  
+          
           <!-- Pairing Code -->
           <p class="text-sm text-gray-400 uppercase mt-4">Pairing Code</p>
           <div class="flex items-center justify-center gap-2 mt-1">
@@ -24,7 +21,6 @@
               (click)="ResetPairingCode()"
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="2"
@@ -43,10 +39,6 @@
           <!-- Phone -->
           <p class="text-sm text-gray-400 uppercase mt-4">Phone</p>
           <p class="text-lg font-semibold text-gray-800">{{ bot.phone }}</p>
-  
-          <!-- Tipo -->
-          <p class="text-sm text-gray-400 uppercase mt-4">Tipo</p>
-          <p class="text-lg font-semibold text-gray-800">{{ bot.tipo }}</p>
         </div>
   
         <!-- Botón de Estado -->

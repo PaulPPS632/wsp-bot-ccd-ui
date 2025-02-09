@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { BotsService } from '../../services/bots.service';
 import { BenderIconComponent } from "../../icons/bender-icon/bender-icon.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card-bot',
-  imports: [FormsModule, BenderIconComponent],
+  imports: [FormsModule, BenderIconComponent, CommonModule],
   templateUrl: './card-bot.component.html',
   styleUrl: './card-bot.component.css'
 })
