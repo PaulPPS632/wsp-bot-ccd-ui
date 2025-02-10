@@ -6,7 +6,15 @@
       <div class="card w-full bg-green shadow-xl rounded-lg p-4">
         <!-- Ícono Superior -->
         <div class="mx-auto w-fit h-fit flex justify-center mb-4 rounded-full" [ngStyle]="{'background-color': bot.tipo === 'bot' ? '#3185f7' : (bot.tipo === 'responder' ? '#800080' : '')}">
-          <app-bender-icon [svgClasses]="'w-20 text-white'"/>
+          @switch (bot.tipo) {
+            @case ("bot") {
+              <app-bender-icon [svgClasses]="'w-20 text-white'"/>
+            }
+            @case ("responder") {
+              <app-leela-icon [svgClasses]="'w-20 text-white p-5'"/>
+            }
+          }
+          
         </div>
   
         <!-- Información del Bot -->

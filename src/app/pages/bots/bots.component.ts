@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CardBotComponent } from "../../component/card-bot/card-bot.component";
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -18,7 +18,7 @@ export class BotsComponent implements OnInit, OnDestroy {
   botsService = inject(BotsService);
   masivosServices = inject(MasivosService);
   websocketService = inject(WebsocketService);
-
+  cdRef = inject(ChangeDetectorRef);
   bots: Bot[] = [];
   newBot = {
     phone: '',
@@ -41,29 +41,51 @@ export class BotsComponent implements OnInit, OnDestroy {
         this.bots.forEach(bot => {
           const updatedBot = data.find((b: Bot) => b.containerId === bot.containerId);
           if (updatedBot) {
-            bot.status = updatedBot.status;
+            
+            
             if(updatedBot.status == "desvinculado"){
+              bot.status = false;
+              this.playAlertSound("desvinculado.mp3");
               Swal.fire({
-                title:"Desvinculado",
-                text: `vincula nuevamente tu bot`,
-                icon: "warning"
+                title:`Bot ${updatedBot.phone} Desvinculado`,
+                text: `vincula nuevamente tu bot tu code: ${updatedBot.newPairingCode} `,
+                icon: "error",
+                position: "top-end", // 📌 Esquina superior derecha,
+                timer: 30000,
+                toast: true, // 📌 Hace que sea más parecido a una notificación
+                showConfirmButton: false, // 📌 Oculta el botón de "OK"
+
               })
             }else if (updatedBot.status == "inactivo"){
+              bot.status = false;
+              this.playAlertSound("alert.mp3");
               Swal.fire({
-                title:"Inactivo",
+                title:`Bot ${updatedBot.phone} Inactivo`,
                 text: `Verifica si se a bloqueado o reinicia el bot`,
-                icon: "warning"
+                icon: "error",
+                position: "top-end", // 📌 Esquina superior derecha
+                timer: 30000,
+                toast: true, // 📌 Hace que sea más parecido a una notificación
+                showConfirmButton: false, // 📌 Oculta el botón de "OK"
+                background:"#f00"
               })
+            }else if(updatedBot.status == "activo"){
+              bot.status = true;
             }
           }
+
         });
       } else {
         console.warn("⚠️ La respuesta no es un array de bots:", data);
       }
+      
     });
     
   }
-
+  playAlertSound(tipoaudio: string){
+    const audio = new Audio(tipoaudio);
+    audio.play();
+  }
   ngOnDestroy(): void {
     // 🔹 Evitar fugas de memoria
     if (this.subscription) {
