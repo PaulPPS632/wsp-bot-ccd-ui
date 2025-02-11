@@ -30,11 +30,7 @@ export class AsignacionComponent {
     flowId: 0,
     botId: 0
   }
-  newBot = {
-    phone: '', 
-    flow: '',
-    namebot: '',
-  };
+  numeros: string = ''; 
   ngOnInit(): void {
     this.BotsLoad();
     this.FlowsLoad();
@@ -63,7 +59,7 @@ export class AsignacionComponent {
 
   parsearTexArea(){
     // 🔹 Convertir el contenido del textarea en un array de números
-    let phoneNumbers = this.newBot.phone
+    let phoneNumbers = this.numeros
       .split(/\n+/) // Dividir por saltos de línea
       .map(num => num.trim()) // Quitar espacios extra
       .filter(num => num !== ""); // Eliminar líneas vacías
@@ -88,7 +84,7 @@ export class AsignacionComponent {
       });
       return;
     }
-
+    this.NewAsignacion.numeros = phoneNumbers;
     // 🔹 Enviar los datos al servicio
     this.SendAsignacion();
   }
