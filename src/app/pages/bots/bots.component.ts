@@ -26,8 +26,7 @@ export class BotsComponent implements OnInit, OnDestroy {
   newBot = {
     phone: '',
     imagebot: 'bot',
-    namebot: '',
-
+    name: '',
   };
   masivo: number = 0;
   private subscription!: Subscription;
@@ -99,7 +98,7 @@ export class BotsComponent implements OnInit, OnDestroy {
   }
 
   CreateBot() {
-    this.botsService.createBot(this.newBot.phone, this.newBot.imagebot,this.newBot.namebot).subscribe((res) => {
+    this.botsService.createBot(this.newBot.phone, this.newBot.imagebot,this.newBot.name).subscribe((res) => {
       Swal.fire({
         title: "Tu conexión",
         text: `Conéctate con este código: ${res.pairingCode}`,

@@ -1,5 +1,6 @@
 export interface Bot{
     id: number;
+    name: string;
     containerId: string;
     port: number;
     pairingCode: string;

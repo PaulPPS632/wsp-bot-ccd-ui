@@ -1,19 +1,40 @@
-<div class="w-full h-full flex-1 bg-red-700">
+<article class="w-full min-h-screen">
+  <div
+    class="w-full h-fit flex flex-row gap-4 justify-start items-end bg-gradient-to-r from-[#111f42] to-[#39a0fe] p-4"
+  >
 
- <div class="size-full flex gap-4">
     <div>
-        <label for="">Numeros:</label>
-        <textarea placeholder="998989898" class=""></textarea>
+      <label for="flow" class="block text-base text-white">Flows:</label>
+      <select name="flow" id="flow" class="rounded-lg h-fit min-w-56" [(ngModel)]="NewAsignacion.flowId">
+        @for (flow of flows; track $index) {
+            <option [value]="flow.id">{{flow.name}}</option>
+        }
+      </select>
     </div>
-    <select name="flow" id="">
-        <option value="">arrocito</option>
-        <option value="">arrocito</option>
-        <option value="">arrocito</option>
-    </select>
-    <select name="flow" id="" class=" rounded-2xl">
-        <option value="">bot_arrocito</option>
-        <option value="">bot_arrocito</option>
-        <option value="">bot_arrocito</option>
-    </select>
- </div>
-</div>
+    <div>
+        <label for="bot" class="block text-base text-white">Bots:</label>
+        <select name="bot" id="bot" class="rounded-lg h-fit min-w-56" [(ngModel)]="NewAsignacion.botId">
+            @for (bot of bots; track $index) {
+                <option [value]="bot.id">{{bot.name}}</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label class="block text-base text-white" for="delaymin">Delay min:</label>
+        <input type="number" [(ngModel)]="NewAsignacion.delaymin" class="rounded-md h-10" placeholder="">
+    </div>
+    <div>
+        <label class="block text-base text-white" for="delaymax">Delay max:</label>
+        <input type="number" [(ngModel)]="NewAsignacion.delaymax" class="rounded-md h-10" placeholder="">
+    </div>
+    <button type="button"
+    class="group px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
+    (click)="SendAsignacion()">
+    CREAR
+  </button>
+  </div>
+  <div class="flex flex-col">
+    <label class="bloc" for="">Numeros:</label>
+    <textarea placeholder="998989898" class=""></textarea>
+  </div>
+</article>
