@@ -1,44 +1,39 @@
 <div
-  class="flex flex-col flex-nowrap items-start justify-start gap-2 mb-10 px-10 py-3 bg-gradient-to-r from-[#111f42] to-[#39a0fe]"
->
-  <div class="flex flex-row flex-nowrap items-center justify-start gap-2">
-    <input
-    type="number"
-    [(ngModel)]="newBot.phone"
-    class="rounded-md h-10 text-[#111f42] border border-gray-300 px-4 no-spinner"
-    placeholder="999888777"
-    maxlength="9"
-  />
-  
-  
-    <select
-      name="imagebot"
-      id="imagebot"
-      class="rounded-md h-10"
-      [(ngModel)]="newBot.imagebot"
-    >
-      <option value="bot">bot</option>
-      <option value="responder">responder</option>
-    </select>
-    <button
-      type="button"
+  class="flex flex-col flex-nowrap items-start justify-start gap-2 mb-10 px-10 py-3 bg-gradient-to-r from-[#111f42] to-[#39a0fe]">
+
+  <div class="flex flex-row flex-nowrap items-center justify-start gap-6">
+    <div class="flex gap-2 items-center">
+      <label class="text-white text-xl" for=""> Nombre del bot:</label>
+      <input type="text" [(ngModel)]="newBot.namebot"
+        class="rounded-md h-10 text-[#111f42] border border-gray-300 px-4 no-spinner" placeholder="Shanticyto.."
+        maxlength="9" />
+    </div>
+    <div class="flex gap-2 items-center">
+      <label class="text-white text-xl" for=""> Numero:</label>
+      <input type="number" [(ngModel)]="newBot.phone"
+        class="rounded-md h-10 text-[#111f42] border border-gray-300 px-4 no-spinner" placeholder="999888777"
+        maxlength="9" />
+    </div>
+    <div class="flex gap-2 items-center">
+      <label class="text-white text-xl" for=""> Tipo de BOT</label>
+      <select name="imagebot" id="imagebot" class="rounded-md h-10" [(ngModel)]="newBot.imagebot">
+        <option value="bot">bot</option>
+        <option value="responder">responder</option>
+      </select>
+    </div>
+    <button type="button"
       class="group px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
-      (click)="CreateBot()"
-    >
+      (click)="CreateBot()">
       CREAR<fa-icon [icon]="faPlusSquare" class="ml-2 font-semibold text-[#111f42] group-hover:text-white"></fa-icon>
     </button>
-    <button
-      type="button"
+    <button type="button"
       class="px-4 py-1 bg-green-500 text-green-950 border-green-500 border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
-      (click)="StartBots()"
-    >
+      (click)="StartBots()">
       ACTIVAR TODOS
     </button>
-    <button
-      type="button"
+    <button type="button"
       class="px-4 py-1 bg-red-500 text-red-950 border-red-500 border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
-      (click)="StopBots()"
-    >
+      (click)="StopBots()">
       DETENER TODOS
     </button>
   </div>

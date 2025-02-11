@@ -31,10 +31,11 @@ export class BotsService {
   stopBots(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/stopAll`);
   }
-  createBot(phone: string, imagebot: string): Observable<any> {
+  createBot(phone: string, imagebot: string,namebot: string): Observable<any> {
     return this.http.post<any>(this.apiUrl, {
       phone,
       imagebot,
+      namebot
     });
   }
   codigo(bot:Bot):Observable<any>{
