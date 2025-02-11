@@ -1,0 +1,46 @@
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    color: rgb(243 244 246); /* text-gray-100 */
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: background-color 0.3s ease, color 0.3s ease; /* transition duration-300 */
+}
+
+.menu-item:hover {
+    background-color: rgb(243 244 246); /* hover:bg-gray-100 */
+    color: rgb(17 24 39); /* hover:text-gray-900 */
+}
+
+.menu-icon {
+    flex-shrink: 0;
+    width: 1.25rem; /* w-5 */
+    height: 1.25rem; /* h-5 */
+    color: rgb(243 244 246); /* text-gray-100 */
+    transition: all 0.075s ease-in-out; /* transition duration-75 */
+}
+
+.menu-text {
+    flex: 1;
+    white-space: nowrap;
+}
+
+/* Estilo cuando la opción está activa */
+.active {
+    border: 2px solid white;
+    background-color: rgb(55 65 81); /* bg-gray-700 */
+    color: white;
+}
+
+/* Quitar flechas en navegadores Webkit (Chrome, Safari, Edge) */
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Quitar flechas en Firefox */
+.no-spinner {
+  -moz-appearance: textfield;
+}

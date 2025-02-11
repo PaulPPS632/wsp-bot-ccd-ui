@@ -7,14 +7,17 @@ import { BotsService } from '../../services/bots.service';
 import { MasivosService } from '../../services/masivos.service';
 import { WebsocketService } from '../../services/websocket.service';
 import { Subscription } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-bots',
-  imports: [CardBotComponent, FormsModule],
+  imports: [CardBotComponent, FormsModule, FontAwesomeModule],
   templateUrl: './bots.component.html',
   styleUrl: './bots.component.css'
 })
 export class BotsComponent implements OnInit, OnDestroy {
+  faPlusSquare = faPlusSquare;
   botsService = inject(BotsService);
   masivosServices = inject(MasivosService);
   websocketService = inject(WebsocketService);
