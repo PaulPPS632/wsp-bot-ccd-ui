@@ -10,7 +10,7 @@ export class AsignacionesService {
   http = inject(HttpClient);
   apiUrl: string = environment.API_URL + '/asignaciones';
   constructor() { }
-  create(Num: string , flow:string , bot:string ): Observable<any> {
+  create(Num: string[] , flow:string , bot:string ): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}`, 
         { 
           Num,
