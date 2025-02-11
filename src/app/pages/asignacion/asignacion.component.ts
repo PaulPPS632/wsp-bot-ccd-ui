@@ -1,4 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BotsService } from '../../services/bots.service';
+import { FlowsService } from '../../services/flows.service';
+import { AsignacionesService } from '../../services/asignaciones.service';
+import { Flows } from '../../interfaces/Flows';
+import { Bot } from '../../interfaces/Bot';
+import { Asignaciones } from '../../interfaces/Asignaciones';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-asignacion',
@@ -22,7 +30,11 @@ export class AsignacionComponent {
     flowId: 0,
     botId: 0
   }
-
+  newBot = {
+    phone: '', 
+    flow: '',
+    namebot: '',
+  };
   ngOnInit(): void {
     this.BotsLoad();
     this.FlowsLoad();
@@ -47,8 +59,9 @@ export class AsignacionComponent {
         timer: 1500,
       });
     });
+  }
 
-  create() {
+  parsearTexArea(){
     // 🔹 Convertir el contenido del textarea en un array de números
     let phoneNumbers = this.newBot.phone
       .split(/\n+/) // Dividir por saltos de línea
@@ -60,7 +73,7 @@ export class AsignacionComponent {
       if (/^\+?51\d{9}$/.test(num)) {
         return num; // ✅ Ya tiene el código de país, lo dejamos igual
       } else if (/^\d{9}$/.test(num)) {
-        return `+51${num}`; // ➕ Agregar "+51" si el número tiene solo 9 dígitos
+        return `51${num}`; // ➕ Agregar "+51" si el número tiene solo 9 dígitos
       } else {
         return null; // ❌ Número inválido
       }
@@ -77,13 +90,6 @@ export class AsignacionComponent {
     }
 
     // 🔹 Enviar los datos al servicio
-    this.asignacionesService.create(phoneNumbers, this.newBot.namebot, this.newBot.flow)
-      .subscribe((res) => {
-        Swal.fire({
-          title: "Tu conexión",
-          text: `Conéctate con este código: ${res.pairingCode}`,
-          icon: "success"
-        });
-      });
+    this.SendAsignacion();
   }
 }
