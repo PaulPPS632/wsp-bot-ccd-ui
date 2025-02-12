@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ReportsService } from '../../services/reports.service';
 
 @Component({
   selector: 'app-bases',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   templateUrl: './bases.component.html',
   styleUrl: './bases.component.css'
 })
-export class BasesComponent {
+export class BasesComponent implements OnInit {
 
+  masivos: any[] =[];
+  asignaciones: any[] = [];
+  
+  reportesService = inject(ReportsService);
+  ngOnInit(): void {
+    this.reportesService.masivos().subscribe((res) => {
+      this.masivos = res.masivos;
+    })
+  }
 }

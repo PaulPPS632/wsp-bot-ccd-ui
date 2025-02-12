@@ -33,10 +33,8 @@ export class BotsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // 🔹 Cargar bots iniciales desde la API
-    this.botsService.getBots().subscribe((res) => {
-      this.bots = res;
-    });
-
+    
+    this.cargarbots();
     // 🔹 Escuchar actualizaciones de estado en tiempo real desde WebSocket
     this.subscription = this.websocketService.listenBotsStatus().subscribe((data) => {
       console.log('🔔 Estado de bots recibido:', data);
@@ -58,7 +56,7 @@ export class BotsComponent implements OnInit, OnDestroy {
                 timer: 30000,
                 toast: true, // 📌 Hace que sea más parecido a una notificación
                 showConfirmButton: false, // 📌 Oculta el botón de "OK"
-
+                showCloseButton: true
               })
             }else if (updatedBot.status == "inactivo"){
               bot.status = false;
@@ -71,7 +69,8 @@ export class BotsComponent implements OnInit, OnDestroy {
                 timer: 30000,
                 toast: true, // 📌 Hace que sea más parecido a una notificación
                 showConfirmButton: false, // 📌 Oculta el botón de "OK"
-                background:"#f00"
+                background:"#f00",
+                showCloseButton: true
               })
             }else if(updatedBot.status == "activo"){
               bot.status = true;
@@ -85,6 +84,11 @@ export class BotsComponent implements OnInit, OnDestroy {
       
     });
     
+  }
+  cargarbots(){
+    this.botsService.getBots().subscribe((res) => {
+      this.bots = res;
+    });
   }
   playAlertSound(tipoaudio: string){
     const audio = new Audio(tipoaudio);
@@ -104,6 +108,7 @@ export class BotsComponent implements OnInit, OnDestroy {
         text: `Conéctate con este código: ${res.pairingCode}`,
         icon: "success"
       });
+      this.cargarbots();
     });
   }
 

@@ -39,16 +39,16 @@
         </select>
     </div>
     -->
-    <div>
+    <div class="mb-6">
         <label class="block text-base text-white" for="delaymin">Delay min:</label>
         <input type="number" [(ngModel)]="NewAsignacion.delaymin" class="rounded-md h-10" placeholder="">
     </div>
-    <div>
+    <div class="mb-6">
         <label class="block text-base text-white" for="delaymax">Delay max:</label>
         <input type="number" [(ngModel)]="NewAsignacion.delaymax" class="rounded-md h-10" placeholder="">
     </div>
     <button type="button"
-    class="group px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
+    class="group mb-6 px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
     (click)="parsearTexArea()">
     CREAR
   </button>

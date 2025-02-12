@@ -30,7 +30,7 @@ export class FlowsService {
       })
     }
     updateById(id: string, flow: Flows):Observable<any>{
-      return this.http.post<any>(`${this.apiUrl}/${id}`,{
+      return this.http.put<any>(`${this.apiUrl}/${id}`,{
         flow
       });
     }

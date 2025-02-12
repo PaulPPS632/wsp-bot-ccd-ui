@@ -1,1 +1,63 @@
-<p>bases works!</p>
+<article>
+    <h2 class="text-xl font-bold m-2">MASIVOS REGISTRADOS</h2>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table
+          class="w-full text-sm text-left rtl:text-right text-gray-900 dark:text-gray-400"
+        >
+          <thead
+            class="text-xs text-gray-700 uppercase bg-[#111f42] "
+          >
+          
+            <tr>
+              <th scope="col" class="px-6 py-3 text-white">nombre</th>
+              <th scope="col" class="px-6 py-3 text-white">Fecha de Creacion</th>
+              <th scope="col" class="px-6 py-3 text-white">cant. Enviada</th>
+              <th scope="col" class="px-6 py-3 text-white">delaymin</th>
+              <th scope="col" class="px-6 py-3 text-white">delaymax</th>
+              <th scope="col" class="px-6 py-3 text-white">cant. Interesados</th>
+              <th scope="col" class="px-6 py-3 text-white">Flujos Enviados</th>
+              <th scope="col" class="px-6 py-3 text-white">Ultima Actualizacion</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (masivo of masivos; track $index) {
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+            <td class="px-6 py-4">
+              {{ masivo.name }}
+            </td>
+            <td class="px-6 py-4">
+                {{ masivo.createdAt }}
+              </td>
+              <td class="px-6 py-4">
+                {{ masivo.amountsend }}
+              </td>
+              <td class="px-6 py-4">
+                {{ masivo.delaymin }}
+              </td>
+              <td class="px-6 py-4">
+                {{ masivo.delaymax }}
+              </td>
+              <td class="px-6 py-4">
+                {{ masivo.amountinteres }}
+              </td>
+              <td class="px-6 py-4">
+                {{ masivo.flows.join(", ") }}
+              </td>
+              
+              <td class="px-6 py-4">
+                {{ masivo.updatedAt }}
+              </td>
+            </tr>
+            }@empty {
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td class="px-6 py-4">No hay datos disponibles.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+</article>

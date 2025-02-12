@@ -4,8 +4,9 @@
     
     >
       <div class="card w-full bg-green shadow-xl rounded-lg p-4">
+        
         <!-- Ícono Superior f38528 -->
-        <div class="mx-auto w-fit h-fit flex justify-center mb-4 rounded-full" [ngStyle]="{'background-color': bot.tipo === 'bot' ? '#3185f7' : (bot.tipo === 'responder' ? '#800080' : (bot.tipo === 'asignacion' ? '#f38528' : ''))}">
+        <div class="mx-auto w-fit h-fit flex justify-center rounded-full" [ngStyle]="{'background-color': bot.tipo === 'bot' ? '#3185f7' : (bot.tipo === 'responder' ? '#800080' : (bot.tipo === 'asignacion' ? '#f38528' : ''))}">
           @switch (bot.tipo) {
             @case ("bot") {
               <app-bender-icon [svgClasses]="'w-20 text-white'"/>
@@ -17,14 +18,16 @@
               <app-fry-icon [svgClasses]="'w-20 text-white p-5'"/>
             }
           }
+          
             <!-- icono para asignacion -->
         </div>
+        <span class="text-lg font-semibold text-gray-800 mx-auto mb-2">{{ bot.name }}</span>
   
         <!-- Información del Bot -->
         <div class="text-center">
           
           <!-- Pairing Code -->
-          <p class="text-sm text-gray-400 uppercase mt-4">Pairing Code</p>
+          <p class="text-sm text-gray-400 uppercase mt-2">Pairing Code</p>
           <div class="flex items-center justify-center gap-2 mt-1">
             <span class="text-lg font-semibold text-gray-800">{{ bot.pairingCode }}</span>
             <button
@@ -48,13 +51,13 @@
           </div>
   
           <!-- Phone -->
-          <p class="text-sm text-gray-400 uppercase mt-4">
+          <p class="text-sm text-gray-400 uppercase mt-2">
             Phone</p>
           <p class="text-lg font-semibold text-gray-800">{{ bot.phone }}</p>
         </div>
   
         <!-- Botón de Estado -->
-        <div class="mt-6">
+        <div class="mt-2">
           @if (bot.status) {
           <button
             type="button"
@@ -72,6 +75,15 @@
             INACTIVO
           </button>
           }
+        </div>
+        <div class="mt-2">
+          <button
+            type="button"
+            class="btn btn-error w-full"
+            (click)="LimpiarCache()"
+          >
+            DELETE CACHE
+          </button>
         </div>
       </div>
     </div>

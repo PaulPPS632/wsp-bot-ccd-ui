@@ -1,13 +1,14 @@
-<div class="flex flex-row flex-nowrap justify-start items-center gap-2">
+<div class="flex flex-row flex-nowrap justify-start items-center gap-2 bg-gradient-to-r from-[#111f42] to-[#39a0fe] py-2 px-4">
     <div>
-        <label class="block" for="cantidad">name:</label>
+        <label class="block text-base text-white" for="cantidad">Nombre:</label>
         <input type="text" name="name" id="name" class="rounded-md h-10" [(ngModel)]="NewFlow.name" />
     </div>
-  <button type="button" (click)="CrearFlow()" class="mt-4 px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
+    <button type="button" (click)="CrearFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
+  @if(!flagModalNewMensaje){
+    <button type="button" (click)="toggleflagModalNewMensaje()" class="my-auto px-4 py-2 bg-teal-500 text-teal-950 border-teal-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >AGREGAR MENSAJE</button>
+  }
 </div>
-@if(!flagModalNewMensaje){
-    <button type="button" (click)="toggleflagModalNewMensaje()" class="px-4 py-2 bg-teal-500 text-teal-950 border-teal-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >AGREGAR MENSAJE</button>
-}
+
 <app-modal [title]="'Crear Mensaje'" [(isOpen)]="flagModalNewMensaje">
   <div
     class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-2 my-5"
@@ -59,8 +60,9 @@
   }
 </div>
 -->
+
 <div
-    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
+    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96 mx-auto"
     cdkDropList
     id="selectedList"
     [cdkDropListData]="NewFlow.mensajes"
@@ -71,17 +73,18 @@
     }
   </div>
 
+<h2 class="mt-4 text-xl font-bold">Lista de Flows</h2>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table
-    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+    class="w-full text-sm text-left rtl:text-right text-gray-900 dark:text-gray-400"
   >
     <thead
-      class="text-xs text-gray-700 uppercase bg-teal-600/55 dark:bg-gray-700 dark:text-gray-400"
+      class="text-xs text-gray-700 uppercase bg-[#111f42] "
     >
     
       <tr>
-        <th scope="col" class="px-6 py-3">id</th>
-        <th scope="col" class="px-6 py-3">name</th>
+        <th scope="col" class="px-6 py-3 text-white">id</th>
+        <th scope="col" class="px-6 py-3 text-white">name</th>
       </tr>
     </thead>
     <tbody>
