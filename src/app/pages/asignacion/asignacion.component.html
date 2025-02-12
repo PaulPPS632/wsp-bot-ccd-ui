@@ -1,8 +1,16 @@
-<article class="w-full min-h-screen">
+<article class="w-full h-full ">
   <div
     class="w-full h-fit flex flex-row gap-4 justify-start items-end bg-gradient-to-r from-[#111f42] to-[#39a0fe] p-4"
   >
-
+    <app-select-search 
+    [title]="'Flows'" 
+    [Tipo]="'Flow'"
+    [rutacreate]="'/flows'"
+    [lista]="flows"
+    (emitterSearchText)="flowSearch($event)"
+    (emitterSelectedValue)="flowSelect($event)"
+    />
+    <!--
     <div>
       <label for="flow" class="block text-base text-white">Flows:</label>
       <select name="flow" id="flow" class="rounded-lg h-fit min-w-56" [(ngModel)]="NewAsignacion.flowId">
@@ -11,6 +19,17 @@
         }
       </select>
     </div>
+    -->
+
+    <app-select-search 
+    [title]="'Bots'" 
+    [Tipo]="'Bot'"
+    [rutacreate]="'/bots'"
+    [lista]="bots"
+    (emitterSearchText)="botSearch($event)"
+    (emitterSelectedValue)="botSelect($event)"
+    />
+    <!--
     <div>
         <label for="bot" class="block text-base text-white">Bots:</label>
         <select name="bot" id="bot" class="rounded-lg h-fit min-w-56" [(ngModel)]="NewAsignacion.botId">
@@ -19,6 +38,7 @@
             }
         </select>
     </div>
+    -->
     <div>
         <label class="block text-base text-white" for="delaymin">Delay min:</label>
         <input type="number" [(ngModel)]="NewAsignacion.delaymin" class="rounded-md h-10" placeholder="">
@@ -33,8 +53,10 @@
     CREAR
   </button>
   </div>
-  <div class="flex flex-col">
-    <label class="bloc" for="">Numeros:</label>
-    <textarea [(ngModel)]="numeros" placeholder="998989898" class=""></textarea>
+  <div class="flex w-1/2 items-center justify-center mx-auto">
+    <div class="flex-col w-full">
+        <label class="block text-base" for="" >Numeros:</label>
+        <textarea [(ngModel)]="numeros" placeholder="998989898" class="rounded-md w-full styletextarea max-h-[500px]"></textarea>
+    </div>
   </div>
 </article>

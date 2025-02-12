@@ -7,10 +7,11 @@ import { Flows } from '../../interfaces/Flows';
 import { Bot } from '../../interfaces/Bot';
 import { Asignaciones } from '../../interfaces/Asignaciones';
 import Swal from 'sweetalert2';
+import { SelectSearchComponent } from "../../component/select-search/select-search.component";
 
 @Component({
   selector: 'app-asignacion',
-  imports: [FormsModule],
+  imports: [FormsModule, SelectSearchComponent],
   templateUrl: './asignacion.component.html',
   styleUrl: './asignacion.component.css',
 })
@@ -27,13 +28,11 @@ export class AsignacionComponent {
     numeros:[],
     delaymin: 10,
     delaymax: 30,
-    flowId: 0,
-    botId: 0
   }
   numeros: string = ''; 
   ngOnInit(): void {
-    this.BotsLoad();
-    this.FlowsLoad();
+    this.botSearch('');
+    this.flowSearch('');
   }
 
   BotsLoad(): void {
@@ -43,8 +42,26 @@ export class AsignacionComponent {
   }
   FlowsLoad(): void {
     this.flowService.listar().subscribe((res) => {
-      this.flows = res;
+      this.flows = res.flows;
     });
+  }
+
+
+  flowSearch(searchFlow: string){
+    this.flowService.search(searchFlow).subscribe((res) => {
+      this.flows = res.flows;
+    });
+  }
+  flowSelect(id: number){
+    this.NewAsignacion.flow = this.flows.find((flow) => flow.id == id);
+  }
+  botSearch(searchBot: string){
+    this.botService.search(searchBot).subscribe((res) => {
+      this.bots = res.bots;
+    });
+  }
+  botSelect(id: number){
+    this.NewAsignacion.bot = this.bots.find((bot) => bot.id == id);
   }
   SendAsignacion() {
     this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe((res) => {
@@ -54,6 +71,12 @@ export class AsignacionComponent {
         icon: 'success',
         timer: 1500,
       });
+      /*
+      this.NewAsignacion = {
+        numeros:[],
+        delaymin: 10,
+        delaymax: 30,
+      }*/
     });
   }
 

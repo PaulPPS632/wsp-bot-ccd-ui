@@ -21,4 +21,10 @@ export class FlowsService {
     listar():Observable<any>{
       return this.http.get<any>(this.apiUrl);
     }
+
+    search(search: string): Observable<any>{
+      return this.http.post<any>(`${this.apiUrl}/search`, {
+        search
+      })
+    }
 }

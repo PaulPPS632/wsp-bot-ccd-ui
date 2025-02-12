@@ -6,10 +6,11 @@ import { BotsService } from '../../services/bots.service';
 import { BenderIconComponent } from "../../icons/bender-icon/bender-icon.component";
 import { CommonModule } from '@angular/common';
 import { LeelaIconComponent } from "../../icons/leela-icon/leela-icon.component";
+import { FryIconComponent } from "../../icons/fry-icon/fry-icon.component";
 
 @Component({
   selector: 'app-card-bot',
-  imports: [FormsModule, BenderIconComponent, CommonModule, LeelaIconComponent],
+  imports: [FormsModule, BenderIconComponent, CommonModule, LeelaIconComponent, FryIconComponent],
   templateUrl: './card-bot.component.html',
   styleUrl: './card-bot.component.css'
 })

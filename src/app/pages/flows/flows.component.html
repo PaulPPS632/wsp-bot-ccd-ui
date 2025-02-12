@@ -21,6 +21,8 @@
     >
       <option value="texto">texto</option>
       <option value="imagen">imagen</option>
+      <option value="video">video</option>
+      <option value="documento">documento</option>
     </select>
     <label class="block" for="contentbody">body:</label>
     <textarea
@@ -30,7 +32,7 @@
       [(ngModel)]="NewMensaje.content.body"
     ></textarea>
 
-    @if (NewMensaje.tipo == "imagen") {
+    @if (NewMensaje.tipo != "texto") {
     <label class="block" for="contentfooter">footer:</label>
     <textarea
       name="contentfooter"

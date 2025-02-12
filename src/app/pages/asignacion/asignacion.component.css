@@ -1,0 +1,6 @@
+.styletextarea{
+    resize: none;
+    min-height: 40px;
+    width: 100%;
+    field-sizing: content;
+}
