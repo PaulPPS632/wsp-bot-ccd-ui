@@ -25,6 +25,10 @@ export const routes: Routes = [
             },{
                 path: 'flows',
                 loadComponent: () => import('./pages/flows/flows.component').then((m) =>  m.FlowsComponent)
+            }
+            ,{
+                path: 'flows/:id',
+                loadComponent: () => import('./pages/flow/flow.component').then((m) =>  m.FlowComponent)
             },{
                 path: 'asignacion',
                 loadComponent: () => import('./pages/asignacion/asignacion.component').then((m) => m.AsignacionComponent)

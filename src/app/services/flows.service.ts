@@ -21,10 +21,17 @@ export class FlowsService {
     listar():Observable<any>{
       return this.http.get<any>(this.apiUrl);
     }
-
+    getById(id: string):Observable<any>{
+      return this.http.get<any>(`${this.apiUrl}/${id}`);
+    }
     search(search: string): Observable<any>{
       return this.http.post<any>(`${this.apiUrl}/search`, {
         search
       })
+    }
+    updateById(id: string, flow: Flows):Observable<any>{
+      return this.http.post<any>(`${this.apiUrl}/${id}`,{
+        flow
+      });
     }
 }

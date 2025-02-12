@@ -35,6 +35,7 @@ export class MasivosComponent implements OnInit {
   listaFlows: Flows[] = [];
   selectedFlows: Flows[]=[];
   masivo: Masivo = {
+    name: "",
     cant: 0,
     delaymin: 0,
     delaymax: 30,
@@ -70,6 +71,13 @@ export class MasivosComponent implements OnInit {
         timer: 1500,
       });
       this.selectedFlows = [];
+      this.masivo = {
+        name: "",
+        cant: 0,
+        delaymin: 0,
+        delaymax: 30,
+        flows: [],
+      };
       this.cargarFlows();
     });
   }

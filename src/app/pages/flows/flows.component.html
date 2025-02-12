@@ -12,7 +12,7 @@
   <div
     class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-2 my-5"
   >
-    <h2>NUEVO MENSAJE</h2>
+    <h2 class="text-black">NUEVO MENSAJE</h2>
     <select
       name="tipo"
       id="tipo"
@@ -24,7 +24,7 @@
       <option value="video">video</option>
       <option value="documento">documento</option>
     </select>
-    <label class="block" for="contentbody">body:</label>
+    <label class="block text-black" for="contentbody">body:</label>
     <textarea
       name="contentbody"
       id="contentbody"
@@ -33,7 +33,7 @@
     ></textarea>
 
     @if (NewMensaje.tipo != "texto") {
-    <label class="block" for="contentfooter">footer:</label>
+    <label class="block text-black" for="contentfooter">footer:</label>
     <textarea
       name="contentfooter"
       id="contentfooter"
