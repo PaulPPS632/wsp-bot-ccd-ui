@@ -6,10 +6,11 @@ import { Flows } from '../../interfaces/Flows';
 import { CardmensajesComponent } from '../../component/cardmensajes/cardmensajes.component';
 import { FlowsService } from '../../services/flows.service';
 import Swal from 'sweetalert2';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-flows',
-  imports: [ModalComponent, FormsModule, CardmensajesComponent],
+  imports: [ModalComponent, FormsModule, CardmensajesComponent,CdkDropList, CdkDrag],
   templateUrl: './flows.component.html',
   styleUrl: './flows.component.css',
 })
@@ -70,4 +71,16 @@ export class FlowsComponent implements OnInit {
   toggleflagModalNewMensaje() {
     this.flagModalNewMensaje = !this.flagModalNewMensaje;
   }
+  drop(event: CdkDragDrop<Mensaje[]>){
+        if (event.previousContainer === event.container) {
+          moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex,
+          );
+        }
+      }
 }

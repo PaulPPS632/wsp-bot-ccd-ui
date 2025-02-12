@@ -1,23 +1,23 @@
 <div class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-4 border-gray-200 border-2 h-fit">
-  <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md text-lg h-fit" disabled>
+  <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md text-lg h-fit">
     <option value="texto">texto</option>
     <option value="imagen">imagen</option>
+    <option value="video">video</option>
+    <option value="documento">documento</option>
   </select>
   <textarea
     name="contentbody"
     id="contentbody"
     class="styletextarea rounded-md"
     [(ngModel)]="mensaje.content.body"
-    disabled
   ></textarea>
 
-  @if (mensaje.tipo == "imagen") {
+  @if (mensaje.tipo != "texto") {
   <textarea
     name="contentbody"
     id="contentbody"
     class="styletextarea rounded-md"
     [(ngModel)]="mensaje.content.footer"
-    disabled
   ></textarea>
   }
 </div>

@@ -10,10 +10,12 @@ import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CardmensajesComponent } from "../../component/cardmensajes/cardmensajes.component";
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Mensaje } from '../../interfaces/Mensaje';
 
 @Component({
   selector: 'app-flow',
-  imports: [FormsModule, CommonModule, CardmensajesComponent],
+  imports: [FormsModule, CommonModule, CardmensajesComponent,CdkDropList, CdkDrag],
   templateUrl: './flow.component.html',
   styleUrl: './flow.component.css',
 })
@@ -26,7 +28,9 @@ export class FlowComponent implements OnInit {
     name: '',
     mensajes: [],
   };
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.flowLoad();
+  }
 
   flowLoad() {
     this.flowService.getById(this.id).subscribe((res) => {
@@ -50,4 +54,17 @@ export class FlowComponent implements OnInit {
       });
     });
   }
+
+    drop(event: CdkDragDrop<Mensaje[]>){
+      if (event.previousContainer === event.container) {
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      } else {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex,
+        );
+      }
+    }
 }

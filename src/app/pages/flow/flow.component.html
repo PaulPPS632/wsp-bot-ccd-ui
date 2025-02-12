@@ -1,7 +1,14 @@
 
-@for (mensaje of flow.mensajes; track $index) {
-    <app-cardmensajes [mensaje]="mensaje"/>
-}
-@empty {
-    <h2>NO HAY MENSAJES</h2>
-}
+<button type="button" (click)="flowUpdate()"></button>
+
+<div
+    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
+    cdkDropList
+    id="selectedList"
+    [cdkDropListData]="flow.mensajes"
+    (cdkDropListDropped)="drop($event)"
+    >
+    @for (mensaje of flow.mensajes; track $index) {
+        <app-cardmensajes cdkDrag [mensaje]="mensaje"/>
+    }
+    </div>
