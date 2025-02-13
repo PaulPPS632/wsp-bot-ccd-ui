@@ -14,24 +14,32 @@ export const routes: Routes = [
                 path: 'bots',
                 loadComponent: () => import('./pages/bots/bots.component').then((m) => m.BotsComponent)
             },{
-                path: 'leads',
-                loadComponent: () => import('./pages/leads/leads.component').then((m) => m.LeadsComponent)
-            },{
-                path: 'bases',
-                loadComponent: () => import('./pages/bases/bases.component').then((m) => m.BasesComponent)
-            },{
                 path: 'masivos',
                 loadComponent: () => import('./pages/masivos/masivos.component').then((m) =>  m.MasivosComponent)
+            }
+            ,{
+                path: 'newmasivos',
+                loadComponent: () => import('./pages/newmasivos/newmasivos.component').then((m) =>  m.NewmasivosComponent)
+            },{
+                path: 'masivos/:id',
+                loadComponent: () => import('./pages/leads-masivo/leads-masivo.component').then((m) =>  m.LeadsMasivoComponent)
             },{
                 path: 'flows',
                 loadComponent: () => import('./pages/flows/flows.component').then((m) =>  m.FlowsComponent)
+            },{
+                path: 'newflows',
+                loadComponent: () => import('./pages/newflow/newflow.component').then((m) =>  m.NewflowComponent)
             }
             ,{
-                path: 'flows/:id',
-                loadComponent: () => import('./pages/flow/flow.component').then((m) =>  m.FlowComponent)
+                path: 'newflows/:id',
+                loadComponent: () => import('./pages/newflow/newflow.component').then((m) =>  m.NewflowComponent)
             },{
                 path: 'asignacion',
                 loadComponent: () => import('./pages/asignacion/asignacion.component').then((m) => m.AsignacionComponent)
+            },
+            {
+                path: 'newasignacion',
+                loadComponent: () => import('./pages/newasignacion/newasignacion.component').then((m) => m.NewasignacionComponent)
             }
         ]
           

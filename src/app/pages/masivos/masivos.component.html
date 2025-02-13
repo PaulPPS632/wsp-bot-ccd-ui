@@ -1,50 +1,79 @@
-<div class="flex flex-row flex-nowrap items-center justify-start gap-2 bg-gradient-to-r from-[#111f42] to-[#39a0fe] py-2 px-4">
-    <div>
-        <label class="block text-white text-base" for="cantidad">Nombre:</label>
-        <input id="name" type="text" [(ngModel)]="masivo.name" class="rounded-md h-10" placeholder="promocion verano ...">
-    </div>
-    <div>
-        <label class="block text-white text-base" for="cantidad">Cantidad:</label>
-        <input id="cantidad" type="number" [(ngModel)]="masivo.cant" class="rounded-md h-10" placeholder="100">
-    </div>
-    <div>
-        <label class="block text-white text-base" for="delaymin">Delay min:</label>
-        <input type="number" [(ngModel)]="masivo.delaymin" class="rounded-md h-10" placeholder="">
-    </div>
-    <span class="mt-5">-</span>
-    <div>
-        <label class="block text-white text-base" for="delaymax">Delay max:</label>
-        <input type="number" [(ngModel)]="masivo.delaymax" class="rounded-md h-10" placeholder="">
-    </div>
-    <button type="button" class="px-4 py-2 bg-purple-500 text-purple-950 border-purple-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" (click)="SendMasivos()">SEND MASIVOS</button>
-    <button type="button" class="p-2 hover:scale-105 border-2 border-green-500 rounded-md transition-all bg-white" (click)="downloadExcel()"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><rect width="16" height="9" x="28" y="15" fill="#21a366"/><path fill="#185c37" d="M44,24H12v16c0,1.105,0.895,2,2,2h28c1.105,0,2-0.895,2-2V24z"/><rect width="16" height="9" x="28" y="24" fill="#107c42"/><rect width="16" height="9" x="12" y="15" fill="#3fa071"/><path fill="#33c481" d="M42,6H28v9h16V8C44,6.895,43.105,6,42,6z"/><path fill="#21a366" d="M14,6h14v9H12V8C12,6.895,12.895,6,14,6z"/><path d="M22.319,13H12v24h10.319C24.352,37,26,35.352,26,33.319V16.681C26,14.648,24.352,13,22.319,13z" opacity=".05"/><path d="M22.213,36H12V13.333h10.213c1.724,0,3.121,1.397,3.121,3.121v16.425	C25.333,34.603,23.936,36,22.213,36z" opacity=".07"/><path d="M22.106,35H12V13.667h10.106c1.414,0,2.56,1.146,2.56,2.56V32.44C24.667,33.854,23.52,35,22.106,35z" opacity=".09"/><linearGradient id="flEJnwg7q~uKUdkX0KCyBa" x1="4.725" x2="23.055" y1="14.725" y2="33.055" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18884f"/><stop offset="1" stop-color="#0b6731"/></linearGradient><path fill="url(#flEJnwg7q~uKUdkX0KCyBa)" d="M22,34H6c-1.105,0-2-0.895-2-2V16c0-1.105,0.895-2,2-2h16c1.105,0,2,0.895,2,2v16	C24,33.105,23.105,34,22,34z"/><path fill="#fff" d="M9.807,19h2.386l1.936,3.754L16.175,19h2.229l-3.071,5l3.141,5h-2.351l-2.11-3.93L11.912,29H9.526	l3.193-5.018L9.807,19z"/></svg></button>
-</div>
-
-
-<div class="flex flex-row items-center justify-center gap-5 w-full mt-5">
-    <div
-    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
-    cdkDropList
-    id="selectedList"
-    [cdkDropListData]="selectedFlows"
-    [cdkDropListConnectedTo]="['initList']"
-    (cdkDropListDropped)="drop($event)"
-    >
-        @for (flow of selectedFlows; track $index) {
-            <app-card-flows cdkDrag [flow]="flow"/>
-        }
-    </div>
-    <div
-    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
-    cdkDropList
-    id="initList"
-    [cdkDropListData]="listaFlows"
-    [cdkDropListConnectedTo]="['selectedList']"
-    (cdkDropListDropped)="drop($event)"
-    >
-        @for (flow of listaFlows; track $index) {
-            <app-card-flows cdkDrag [flow]="flow"/>
-        }
-    </div>
-</div>
-
+<div class="bg-gradient-to-r from-[#111f42] to-[#39a0fe]">
+    <h2 class="text-2xl font-bold p-4 text-white text-center">MASIVOS REGISTRADOS</h2>
+  </div>
+  <div class="w-full flex h-16 items-center justify-end">
+    <button class="px-4 py-1 text-white bg-[#111f42] hover:text-[#111f42] border-[#111f42] border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
+    [routerLink]="['/newmasivos']"
+    >NUEVO MASIVO</button>
+  </div>
+  <article class="">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table
+            class="w-full text-sm text-left rtl:text-right text-gray-900 dark:text-gray-400"
+          >
+            <thead
+              class="text-xs text-gray-700 uppercase bg-[#111f42] "
+            >
+            
+              <tr>
+                <th scope="col" class="px-6 py-3 text-white">Nombre</th>
+                <th scope="col" class="px-6 py-3 text-white">Fecha de Creacion</th>
+                <th scope="col" class="px-6 py-3 text-white">Cant. Enviada</th>
+                <th scope="col" class="px-6 py-3 text-white">Delaymin</th>
+                <th scope="col" class="px-6 py-3 text-white">Delaymax</th>
+                <th scope="col" class="px-6 py-3 text-white">Cant. Interesados</th>
+                <th scope="col" class="px-6 py-3 text-white">Flujos Enviados</th>
+                <th scope="col" class="px-6 py-3 text-white">Ultima Actualizacion</th>
+                <th scope="col" class="px-6 py-3 text-white">Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (masivo of masivos; track $index) {
+              <tr
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+              <td class="px-6 py-4">
+                {{ masivo.name }}
+              </td>
+              <td class="px-6 py-4">
+                  {{ masivo.createdAt }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ masivo.amountsend }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ masivo.delaymin }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ masivo.delaymax }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ masivo.amountinteres }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ masivo.flows.join(", ") }}
+                </td>
+                
+                <td class="px-6 py-4">
+                  {{ masivo.updatedAt }}
+                </td>
+                <td class="px-6 py-4">
+                    <svg 
+                    [routerLink]="['/newmasivos', masivo.id]"
+                    class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5.027 10.9a8.729 8.729 0 0 1 6.422-3.62v-1.2A2.061 2.061 0 0 1 12.61 4.2a1.986 1.986 0 0 1 2.104.23l5.491 4.308a2.11 2.11 0 0 1 .588 2.566 2.109 2.109 0 0 1-.588.734l-5.489 4.308a1.983 1.983 0 0 1-2.104.228 2.065 2.065 0 0 1-1.16-1.876v-.942c-5.33 1.284-6.212 5.251-6.25 5.441a1 1 0 0 1-.923.806h-.06a1.003 1.003 0 0 1-.955-.7A10.221 10.221 0 0 1 5.027 10.9Z"/>
+                      </svg>
+                </td>
+              </tr>
+              }@empty {
+              <tr
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                <td class="px-6 py-4">No hay datos disponibles.</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+  </article>
+  

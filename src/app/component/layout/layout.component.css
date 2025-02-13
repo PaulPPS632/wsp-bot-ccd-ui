@@ -28,11 +28,15 @@
 
 /* Estilo cuando la opción está activa */
 .active {
-    border: 2px solid white;
-    background-color: rgb(55 65 81); /* bg-gray-700 */
+    background-color: white; /* bg-gray-700 rgb(21, 57, 116) */
     color: white;
 }
-
+.active> svg{
+    color: black;
+}
+.active> span{
+    color: black;
+}
 /* Quitar flechas en navegadores Webkit (Chrome, Safari, Edge) */
 .no-spinner::-webkit-inner-spin-button,
 .no-spinner::-webkit-outer-spin-button {

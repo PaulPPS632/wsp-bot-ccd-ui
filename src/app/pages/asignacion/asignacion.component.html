@@ -1,66 +1,63 @@
-<article class="w-full h-full ">
-  <div
-    class="w-full h-fit flex flex-row gap-4 justify-start items-end bg-gradient-to-r from-[#111f42] to-[#39a0fe] p-4"
-  >
-    <div class="mb-6">
-      <label for="nombre" class="block text-base text-white">Nombre:</label>
-      <input type="text" name="nombre" id="nombre" [(ngModel)]="this.NewAsignacion.name" class="rounded-lg ">
-    </div>
-    <app-select-search 
-    [title]="'Flows'" 
-    [Tipo]="'Flow'"
-    [rutacreate]="'/flows'"
-    [lista]="flows"
-    (emitterSearchText)="flowSearch($event)"
-    (emitterSelectedValue)="flowSelect($event)"
-    />
-    <!--
-    <div>
-      <label for="flow" class="block text-base text-white">Flows:</label>
-      <select name="flow" id="flow" class="rounded-lg h-fit min-w-56" [(ngModel)]="NewAsignacion.flowId">
-        @for (flow of flows; track $index) {
-            <option [value]="flow.id">{{flow.name}}</option>
-        }
-      </select>
-    </div>
-    -->
-
-    <app-select-search 
-    [title]="'Bots'" 
-    [Tipo]="'Bot'"
-    [rutacreate]="'/bots'"
-    [lista]="bots"
-    (emitterSearchText)="botSearch($event)"
-    (emitterSelectedValue)="botSelect($event)"
-    />
-    <!--
-    <div>
-        <label for="bot" class="block text-base text-white">Bots:</label>
-        <select name="bot" id="bot" class="rounded-lg h-fit min-w-56" [(ngModel)]="NewAsignacion.botId">
-            @for (bot of bots; track $index) {
-                <option [value]="bot.id">{{bot.name}}</option>
+<div class="bg-gradient-to-r from-[#111f42] to-[#39a0fe]">
+  <h2 class="text-2xl font-bold p-4 text-white text-center">ASIGNACIONES REGISTRADOS</h2>
+</div>
+<div class="w-full flex h-16 items-center justify-end">
+  <button class="px-4 py-1 text-white bg-[#111f42] hover:text-[#111f42] border-[#111f42] border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
+  [routerLink]="['/newasignacion']"
+  >NUEVA ASIGNACION</button>
+</div>
+<article class="">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table
+          class="w-full text-sm text-left rtl:text-right text-gray-900 dark:text-gray-400"
+        >
+          <thead
+            class="text-xs text-gray-700 uppercase bg-[#111f42] "
+          >
+          
+            <tr>
+              <th scope="col" class="px-6 py-3 text-white">Nombre</th>
+              <th scope="col" class="px-6 py-3 text-white">Fecha de Creacion</th>
+              <th scope="col" class="px-6 py-3 text-white">Cant. Enviada</th>
+              <th scope="col" class="px-6 py-3 text-white">Bot Nombre</th>
+              <th scope="col" class="px-6 py-3 text-white">Bot Cel.</th>
+              <th scope="col" class="px-6 py-3 text-white">Flow</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (asignacion of asignaciones; track $index) {
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+            <td class="px-6 py-4">
+              {{ asignacion.name }}
+            </td>
+            <td class="px-6 py-4">
+                {{ asignacion.createdAt }}
+              </td>
+              <td class="px-6 py-4">
+                {{ asignacion.amountsend }}
+              </td>
+              <td class="px-6 py-4">
+                {{ asignacion.botname }}
+              </td>
+              <td class="px-6 py-4">
+                {{ asignacion.botphone }}
+              </td>
+              
+              <td class="px-6 py-4">
+                {{ asignacion.flowname }}
+              </td>
+            </tr>
+            }@empty {
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td class="px-6 py-4">No hay datos disponibles.</td>
+            </tr>
             }
-        </select>
-    </div>
-    -->
-    <div class="mb-6">
-        <label class="block text-base text-white" for="delaymin">Delay min:</label>
-        <input type="number" [(ngModel)]="NewAsignacion.delaymin" class="rounded-md h-10" placeholder="">
-    </div>
-    <div class="mb-6">
-        <label class="block text-base text-white" for="delaymax">Delay max:</label>
-        <input type="number" [(ngModel)]="NewAsignacion.delaymax" class="rounded-md h-10" placeholder="">
-    </div>
-    <button type="button"
-    class="group mb-6 px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
-    (click)="parsearTexArea()">
-    CREAR
-  </button>
-  </div>
-  <div class="flex w-1/2 items-center justify-center mx-auto">
-    <div class="flex-col w-full">
-        <label class="block text-base" for="" >Numeros:</label>
-        <textarea [(ngModel)]="numeros" placeholder="998989898" class="rounded-md w-full styletextarea max-h-[500px]"></textarea>
-    </div>
-  </div>
+          </tbody>
+        </table>
+      </div>
 </article>
+

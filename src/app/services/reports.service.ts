@@ -17,7 +17,7 @@ export class ReportsService {
   asignaciones(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/asignaciones`);
   }
-  leadsinteresados(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/leadsinteresados`);
+  leadsinteresados(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/leadsinteresados/${id}`);
   }
 }

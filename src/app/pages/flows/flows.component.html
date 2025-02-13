@@ -1,79 +1,11 @@
-<div class="flex flex-row flex-nowrap justify-start items-center gap-2 bg-gradient-to-r from-[#111f42] to-[#39a0fe] py-2 px-4">
-    <div>
-        <label class="block text-base text-white" for="cantidad">Nombre:</label>
-        <input type="text" name="name" id="name" class="rounded-md h-10" [(ngModel)]="NewFlow.name" />
-    </div>
-    <button type="button" (click)="CrearFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
-  @if(!flagModalNewMensaje){
-    <button type="button" (click)="toggleflagModalNewMensaje()" class="my-auto px-4 py-2 bg-teal-500 text-teal-950 border-teal-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >AGREGAR MENSAJE</button>
-  }
+<div class="bg-gradient-to-r from-[#111f42] to-[#39a0fe]">
+  <h2 class="text-2xl font-bold p-4 text-white text-center">FLOWS REGISTRADOS</h2>
 </div>
-
-<app-modal [title]="'Crear Mensaje'" [(isOpen)]="flagModalNewMensaje">
-  <div
-    class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-2 my-5"
-  >
-    <h2 class="text-black">NUEVO MENSAJE</h2>
-    <select
-      name="tipo"
-      id="tipo"
-      [(ngModel)]="NewMensaje.tipo"
-      class="w-40 rounded-md text-lg h-fit text-black"
-    >
-      <option value="texto">texto</option>
-      <option value="imagen">imagen</option>
-      <option value="video">video</option>
-      <option value="documento">documento</option>
-    </select>
-    <label class="block text-black" for="contentbody">body:</label>
-    <textarea
-      name="contentbody"
-      id="contentbody"
-      class="styletextarea rounded-md text-black"
-      [(ngModel)]="NewMensaje.content.body"
-    ></textarea>
-
-    @if (NewMensaje.tipo != "texto") {
-    <label class="block text-black" for="contentfooter">footer:</label>
-    <textarea
-      name="contentfooter"
-      id="contentfooter"
-      class="styletextarea rounded-md"
-      [(ngModel)]="NewMensaje.content.footer"
-    ></textarea>
-    }
-    <button
-      type="button"
-      class="px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all"
-      (click)="addNewMensaje()"
-    >
-      GUARDAR
-    </button>
-  </div>
-</app-modal>
-<!--
-<div
-  class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
->
-  @for (mensaje of NewFlow.mensajes; track $index) {
-  <app-cardmensajes [mensaje]="mensaje" />
-  }
+<div class="w-full flex h-16 items-center justify-end">
+  <button class="px-4 py-1 text-white bg-[#111f42] hover:text-[#111f42] border-[#111f42] border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
+  [routerLink]="['/newflows']"
+  >NUEVO FLOW</button>
 </div>
--->
-
-<div
-    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96 mx-auto"
-    cdkDropList
-    id="selectedList"
-    [cdkDropListData]="NewFlow.mensajes"
-    (cdkDropListDropped)="drop($event)"
-    >
-    @for (mensaje of NewFlow.mensajes; track $index) {
-        <app-cardmensajes cdkDrag [mensaje]="mensaje"/>
-    }
-  </div>
-
-<h2 class="mt-4 text-xl font-bold">Lista de Flows</h2>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table
     class="w-full text-sm text-left rtl:text-right text-gray-900 dark:text-gray-400"
@@ -85,6 +17,7 @@
       <tr>
         <th scope="col" class="px-6 py-3 text-white">id</th>
         <th scope="col" class="px-6 py-3 text-white">name</th>
+        <th scope="col" class="px-6 py-3 text-white">accion</th>
       </tr>
     </thead>
     <tbody>
@@ -97,6 +30,15 @@
       </td>
         <td class="px-6 py-4">
           {{ flows.name }}
+        </td>
+        <td>
+          <button [routerLink]="['/newflows',flows.id]" class="hover:scale-110 transition-all">
+            <svg 
+            class="w-6 h-6 text-[#111f42] hover:text-[#22408d]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+            </svg>
+          </button>
+          
         </td>
       </tr>
       }@empty {
