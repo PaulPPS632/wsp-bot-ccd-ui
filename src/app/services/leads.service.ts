@@ -15,4 +15,7 @@ export class LeadsService {
       responseType: 'blob' // Importante para recibir archivos binarios
     });
   }
+  cantRestantes():Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/leadsrestantes`);
+  }
 }

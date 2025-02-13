@@ -26,7 +26,7 @@ export class NewmasivosComponent implements OnInit {
   masivosService = inject(MasivosService);
   flowsService = inject(FlowsService);
   leadsService = inject(LeadsService);
-
+  cantLeasRestantes: number = 0;
   listaFlows: Flows[] = [];
   selectedFlows: Flows[]=[];
   masivo: Masivo = {
@@ -37,6 +37,7 @@ export class NewmasivosComponent implements OnInit {
     flows: [],
   };
   ngOnInit(): void {
+    this.cargarcantRespantes()
     this.cargarFlows();
   }
   drop(event: CdkDragDrop<Flows[]>){
@@ -73,10 +74,15 @@ export class NewmasivosComponent implements OnInit {
         delaymax: 30,
         flows: [],
       };
+      this.cargarcantRespantes();
       this.cargarFlows();
     });
   }
-
+  cargarcantRespantes(){
+    this.leadsService.cantRestantes().subscribe((res) => {
+      this.cantLeasRestantes = res.cant;
+    })
+  }
 downloadExcel() {
   this.leadsService.excel().subscribe(blob => {
     const a = document.createElement('a');
