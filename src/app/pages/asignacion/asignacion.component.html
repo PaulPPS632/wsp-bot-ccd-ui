@@ -2,6 +2,10 @@
   <div
     class="w-full h-fit flex flex-row gap-4 justify-start items-end bg-gradient-to-r from-[#111f42] to-[#39a0fe] p-4"
   >
+    <div class="mb-6">
+      <label for="nombre" class="block text-base text-white">Nombre:</label>
+      <input type="text" name="nombre" id="nombre" [(ngModel)]="this.NewAsignacion.name" class="rounded-lg ">
+    </div>
     <app-select-search 
     [title]="'Flows'" 
     [Tipo]="'Flow'"

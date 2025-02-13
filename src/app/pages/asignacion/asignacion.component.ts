@@ -25,6 +25,7 @@ export class AsignacionComponent {
   bots: Bot[] = [];
 
   NewAsignacion: Asignaciones = {
+    name: "",
     numeros:[],
     delaymin: 10,
     delaymax: 30,
@@ -71,12 +72,12 @@ export class AsignacionComponent {
         icon: 'success',
         timer: 1500,
       });
-      /*
       this.NewAsignacion = {
+        name:"",
         numeros:[],
         delaymin: 10,
         delaymax: 30,
-      }*/
+      }
     });
   }
 
