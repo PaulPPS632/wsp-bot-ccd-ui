@@ -33,7 +33,7 @@
               {{ asignacion.name }}
             </td>
             <td class="px-6 py-4">
-                {{ asignacion.createdAt }}
+                {{ asignacion.createdAt.split("T")[0] + " " + asignacion.createdAt.split("T")[1].split(".")[0]  }}
               </td>
               <td class="px-6 py-4">
                 {{ asignacion.amountsend }}
