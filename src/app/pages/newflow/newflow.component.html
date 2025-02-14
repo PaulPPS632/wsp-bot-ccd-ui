@@ -9,10 +9,10 @@
   }@else {
     <button type="button" (click)="CrearFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
   }
-
-  @if(!flagModalNewMensaje){
-    <button type="button" (click)="toggleflagModalNewMensaje()" class="my-auto px-4 py-2 bg-teal-500 text-teal-950 border-teal-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >AGREGAR MENSAJE</button>
-  }
+  <div class="flex items-center">
+    <input id="default-checkbox" type="checkbox" [(ngModel)]="flagCursos" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    <label for="default-checkbox" class="ms-2 text-sm font-medium text-white">Activar Cursos</label>
+  </div>
 </div>
 
 <app-modal [title]="'Crear Mensaje'" [(isOpen)]="flagModalNewMensaje">
@@ -57,24 +57,32 @@
     </button>
   </div>
 </app-modal>
-<!--
-<div
-  class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96"
->
-  @for (mensaje of NewFlow.mensajes; track $index) {
-  <app-cardmensajes [mensaje]="mensaje" />
-  }
-</div>
--->
 
-<div
-    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-1/2 min-h-96 mx-auto"
+<article class="w-full flex flex-row">
+  <div
+    class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-full min-h-96 mx-auto"
     cdkDropList
     id="selectedList"
     [cdkDropListData]="NewFlow.mensajes"
     (cdkDropListDropped)="drop($event)"
     >
     @for (mensaje of NewFlow.mensajes; track $index) {
-        <app-cardmensajes cdkDrag [mensaje]="mensaje"/>
+        <app-cardmensajes cdkDragLockAxis="y" cdkDrag [mensaje]="mensaje" [posicion]="$index +1"/>
     }
+    <button type="button" class="flex flex-row items-center justify-center gap-4 hover:scale-105 hover:font-bold transition-all"  (click)="toggleflagModalNewMensaje()">
+      <div class="rounded-full border-2 border-gray-800 ">
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+        </svg>
+      </div>
+      <span>AGREGAR MENSAJE</span>
+    </button>
   </div>
+  @if (flagCursos) {
+    <div class="flex-col w-full">
+      <label class="block text-base" for="" >Cursos:</label>
+      <textarea [(ngModel)]="NewFlow.listacursos" placeholder="SUPER PACK EXCEL" class="rounded-md w-full styletextarea max-h-[500px]"></textarea>
+    </div>
+  }
+</article>
+

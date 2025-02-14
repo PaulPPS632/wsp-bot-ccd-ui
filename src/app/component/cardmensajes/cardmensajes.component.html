@@ -1,23 +1,33 @@
-<div class="flex flex-col items-start justify-center w-96 min-h-32 rounded-md gap-4 border-gray-200 border-2 h-fit">
-  <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md text-lg h-fit">
-    <option value="texto">texto</option>
-    <option value="imagen">imagen</option>
-    <option value="video">video</option>
-    <option value="documento">documento</option>
-  </select>
-  <textarea
-    name="contentbody"
-    id="contentbody"
-    class="styletextarea rounded-md"
-    [(ngModel)]="mensaje.content.body"
-  ></textarea>
-
-  @if (mensaje.tipo != "texto") {
-  <textarea
-    name="contentbody"
-    id="contentbody"
-    class="styletextarea rounded-md"
-    [(ngModel)]="mensaje.content.footer"
-  ></textarea>
-  }
+<div class="flex flex-row w-96 min-h-32 rounded-md gap-4 border-gray-200 border-2 h-fit bg-white py-4 pr-2">
+  <div class="w-10 h-full flex flex-col items-center justify-center gap-4">
+    <span class="text-lg">{{posicion}}</span>
+    <div cdkDragHandle class="cursor-move">
+      <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"/>
+      </svg>
+    </div>
+  </div>
+  <div class="flex flex-col items-start justify-center gap-4 w-full">
+    <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md h-fit text-sm">
+      <option value="texto">texto</option>
+      <option value="imagen">imagen</option>
+      <option value="video">video</option>
+      <option value="documento">documento</option>
+    </select>
+    <textarea
+      name="contentbody"
+      id="contentbody"
+      class="styletextarea rounded-md"
+      [(ngModel)]="mensaje.content.body"
+    ></textarea>
+  
+    @if (mensaje.tipo != "texto") {
+    <textarea
+      name="contentbody"
+      id="contentbody"
+      class="styletextarea rounded-md"
+      [(ngModel)]="mensaje.content.footer"
+    ></textarea>
+    }
+  </div>
 </div>
