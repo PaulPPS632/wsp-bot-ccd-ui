@@ -20,5 +20,4 @@ export class FlowsComponent implements OnInit {
       this.CurrentFlows = res.flows;
     });
   }
-  
 }

@@ -1,4 +1,4 @@
-<div class="flex flex-row w-96 min-h-32 rounded-md gap-4 border-gray-200 border-2 h-fit bg-white py-4 pr-2">
+<div class="flex flex-row items-start justify-center w-[500px] min-h-32 rounded-md gap-4 border-gray-200 border-2 h-fit bg-white py-4 pr-2">
   <div class="w-10 h-full flex flex-col items-center justify-center gap-4">
     <span class="text-lg">{{posicion}}</span>
     <div cdkDragHandle class="cursor-move">
@@ -6,8 +6,10 @@
           <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"/>
       </svg>
     </div>
+    
   </div>
-  <div class="flex flex-col items-start justify-center gap-4 w-full">
+  <div class="flex flex-col items-start justify-center gap-4 w-[420px]">
+
     <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md h-fit text-sm">
       <option value="texto">texto</option>
       <option value="imagen">imagen</option>
@@ -17,7 +19,7 @@
     <textarea
       name="contentbody"
       id="contentbody"
-      class="styletextarea rounded-md"
+      class="styletextarea rounded-md w-full"
       [(ngModel)]="mensaje.content.body"
     ></textarea>
   
@@ -25,9 +27,15 @@
     <textarea
       name="contentbody"
       id="contentbody"
-      class="styletextarea rounded-md"
+      class="styletextarea rounded-md w-full" 
       [(ngModel)]="mensaje.content.footer"
     ></textarea>
     }
   </div>
+  <button (click)="Eliminar()" class=" right-0 top-0">
+    <svg class=" w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+    </svg>
+  </button>
+
 </div>

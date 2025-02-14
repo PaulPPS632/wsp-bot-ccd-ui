@@ -7,6 +7,7 @@ import { CardmensajesComponent } from '../../component/cardmensajes/cardmensajes
 import { FlowsService } from '../../services/flows.service';
 import Swal from 'sweetalert2';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-newflow',
@@ -16,6 +17,8 @@ import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem }
 })
 export class NewflowComponent implements OnInit {
   @Input('id')id:string = '';
+  clonar: boolean = false;
+  router = inject(ActivatedRoute);
   flowsServices = inject(FlowsService);
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
@@ -36,6 +39,10 @@ export class NewflowComponent implements OnInit {
     },
   };
   ngOnInit(): void {
+    this.router.queryParams.subscribe(params => {
+      this.clonar = params['clonar'] === 'true';
+      
+    })
     if(this.id !== undefined){
       //this.cargarFlows();
       this.flowLoad();
@@ -44,7 +51,13 @@ export class NewflowComponent implements OnInit {
   flowLoad() {
     this.flowsServices.getById(this.id).subscribe((res) => {
       this.NewFlow = res.flow;
+      if(this.clonar){
+        this.NewFlow.name = this.NewFlow.name + ' (copy)'
+      }
     });
+  }
+  eliminarmensaje(posicion: number){
+    this.NewFlow.mensajes.splice(posicion - 1,1);
   }
   addNewMensaje() {
     this.NewFlow.mensajes.push(this.NewMensaje);

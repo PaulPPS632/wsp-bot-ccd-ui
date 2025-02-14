@@ -36,6 +36,9 @@ export const routes: Routes = [
             },{
                 path: 'asignacion',
                 loadComponent: () => import('./pages/asignacion/asignacion.component').then((m) => m.AsignacionComponent)
+            },{
+                path: 'asignacion/:id',
+                loadComponent: () => import('./pages/leads-asignacion/leads-asignacion.component').then((m) => m.LeadsAsignacionComponent)
             },
             {
                 path: 'newasignacion',

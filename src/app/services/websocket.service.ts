@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class WebsocketService {
   private socket!: Socket;
-  private readonly SERVER_URL = 'http://localhost:8000'; // URL del WebSocket
+  private readonly SERVER_URL = 'http://192.168.1.100:8000'; // URL del WebSocket
 
   constructor() {
     this.connect();
