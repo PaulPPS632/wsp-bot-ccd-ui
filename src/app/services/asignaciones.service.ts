@@ -15,7 +15,7 @@ export class AsignacionesService {
     return this.http.post<any>(`${this.apiUrl}`, { asignaciones });
   }
 
-  ProgramacionAsignacion (asignaciones: Asignaciones, programacion: Date):Observable<any>{
+  ProgramacionAsignacion (asignaciones: Asignaciones, programacion: string):Observable<any>{
     return this.http.post<any>(`${this.apiUrl}`, { asignaciones, programacion });
   }
 }

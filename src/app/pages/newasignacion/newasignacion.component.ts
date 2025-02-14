@@ -70,8 +70,10 @@ export class NewasignacionComponent {
     this.flagConfigurar = !this.flagConfigurar;
   }
   enviarConfiguracion(){
+    const fechaISO = new Date(this.fechaConfiguracion).toISOString();
     console.log(this.fechaConfiguracion);
-    this.asignacionesService.ProgramacionAsignacion(this.NewAsignacion, this.fechaConfiguracion).subscribe((res)=>{
+    console.log(fechaISO);
+    this.asignacionesService.ProgramacionAsignacion(this.NewAsignacion, fechaISO).subscribe((res)=>{
       this.RequestConrretoyLimpiar(res.message);
     })
   }
