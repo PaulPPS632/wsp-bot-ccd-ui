@@ -8,10 +8,11 @@ import { Bot } from '../../interfaces/Bot';
 import { Asignaciones } from '../../interfaces/Asignaciones';
 import Swal from 'sweetalert2';
 import { SelectSearchComponent } from "../../component/select-search/select-search.component";
+import { ModalComponent } from "../../component/modal/modal.component";
 
 @Component({
   selector: 'app-newasignacion',
-  imports: [FormsModule, SelectSearchComponent],
+  imports: [FormsModule, SelectSearchComponent, ModalComponent],
   templateUrl: './newasignacion.component.html',
   styleUrl: './newasignacion.component.css'
 })
@@ -20,7 +21,8 @@ export class NewasignacionComponent {
   botService = inject(BotsService);
   flowService = inject(FlowsService);
   asignacionesService = inject(AsignacionesService);
-
+  flagConfigurar: boolean = false;
+  fechaConfiguracion!: Date ;
   flows: Flows[] = [];
   bots: Bot[] = [];
 
@@ -64,23 +66,34 @@ export class NewasignacionComponent {
   botSelect(id: number){
     this.NewAsignacion.bot = this.bots.find((bot) => bot.id == id);
   }
+  modalconfigurar(){
+    this.flagConfigurar = !this.flagConfigurar;
+  }
+  enviarConfiguracion(){
+    console.log(this.fechaConfiguracion);
+    this.asignacionesService.ProgramacionAsignacion(this.NewAsignacion, this.fechaConfiguracion).subscribe((res)=>{
+      this.RequestConrretoyLimpiar(res.message);
+    })
+  }
   SendAsignacion() {
     this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe((res) => {
-      Swal.fire({
-        title: 'ESTADO',
-        text: res.message,
-        icon: 'success',
-        timer: 1500,
-      });
-      this.NewAsignacion = {
-        name:"",
-        numeros:[],
-        delaymin: 10,
-        delaymax: 30,
-      }
+      this.RequestConrretoyLimpiar(res.message);
     });
   }
-
+  RequestConrretoyLimpiar(message: string){
+    Swal.fire({
+      title: 'ESTADO',
+      text: message,
+      icon: 'success',
+      timer: 1500,
+    });
+    this.NewAsignacion = {
+      name:"",
+      numeros:[],
+      delaymin: 10,
+      delaymax: 30,
+    }
+  }
   parsearTexArea(){
     // 🔹 Convertir el contenido del textarea en un array de números
     let phoneNumbers = this.numeros
@@ -118,7 +131,6 @@ export class NewasignacionComponent {
       event.preventDefault();
     }
   }
-  
   onInput() {
     // Eliminar cualquier carácter no numérico si se pega algo incorrecto
     this.numeros = this.numeros.replace(/[^\d\n]/g, '');

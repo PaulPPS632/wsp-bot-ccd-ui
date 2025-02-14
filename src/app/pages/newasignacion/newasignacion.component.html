@@ -54,14 +54,29 @@
       <button type="button"
       class="group mb-6 px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
       (click)="parsearTexArea()">
-      CREAR
-    </button>
+      ENVIAR
+      </button>
+      <button type="button"
+      class="group mb-6 px-4 py-1 block text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer w-fit h-10 rounded-md text-sm font-semibold transition-all"
+      (click)="modalconfigurar()">
+      CONFIGURAR
+      </button>
     </div>
+    <app-modal [(isOpen)]="flagConfigurar" [title]="'CONFIGURAR'">
+      <label for="datetimeprogramacion" class="block text-black mb-2">FECHA Y HORA: </label>
+      <input type="datetime-local" name="datetimeprogramacion" id="datetimeprogramacion" class="text-black rounded-md" [(ngModel)]="fechaConfiguracion">
+      <button type="button"
+      class="group mt-6 px-4 py-1 block w-full text-[#111f42] hover:text-white border-[2px] border-transparent hover:border-white bg-[#00eadf] hover:bg-[#111f42] hover:cursor-pointer h-10 rounded-md text-sm font-semibold transition-all"
+      (click)="enviarConfiguracion()">
+      ENVIAR CONFIGURACION
+      </button>
+    </app-modal>
     <div class="flex w-1/2 items-center justify-center mx-auto">
       <div class="flex-col w-full">
           <label class="block text-base" for="" >Numeros:</label>
           <textarea [(ngModel)]="numeros" placeholder="998989898" class="rounded-md w-full styletextarea max-h-[500px]" (keypress)="onKeyPress($event)" (input)="onInput()"></textarea>
       </div>
+      
     </div>
   </article>
   

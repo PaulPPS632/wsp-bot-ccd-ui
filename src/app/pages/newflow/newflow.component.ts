@@ -19,9 +19,12 @@ export class NewflowComponent implements OnInit {
   flowsServices = inject(FlowsService);
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
+  flagCursos: boolean = false;
   NewFlow: Flows = {
     id: 0,
     name: '',
+    listacursos: [],
+    variables: {},
     mensajes: [],
   };
   NewMensaje: Mensaje = {
@@ -56,6 +59,15 @@ export class NewflowComponent implements OnInit {
     this.toggleflagModalNewMensaje();
   }
   CrearFlow() {
+    if(this.NewFlow.name == ''){
+      Swal.fire({
+        title: 'FALTA NOMBRE',
+        text: 'NO PUEDES CREAR UN FLUJO SIN NOMBRE',
+        icon: 'warning',
+        timer: 1500,
+      });
+      return;
+    }
     this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
@@ -66,6 +78,8 @@ export class NewflowComponent implements OnInit {
       this.NewFlow ={
         id:0,
         name:'',
+        listacursos: [],
+        variables: {},
         mensajes:[]
       }
     });
