@@ -15,9 +15,10 @@ import { Flows } from '../../interfaces/Flows';
 import { CardFlowsComponent } from "../../component/card-flows/card-flows.component";
 import { FlowsService } from '../../services/flows.service';
 import { LeadsService } from '../../services/leads.service';
+import { LoaderComponent } from "../../component/loader/loader.component";
 @Component({
   selector: 'app-newmasivos',
-  imports: [FormsModule, CdkDropList, CdkDrag, CommonModule, CardFlowsComponent],
+  imports: [FormsModule, CdkDropList, CdkDrag, CommonModule, CardFlowsComponent, LoaderComponent],
   templateUrl: './newmasivos.component.html',
   styleUrl: './newmasivos.component.css'
 })
@@ -36,6 +37,7 @@ export class NewmasivosComponent implements OnInit {
     delaymax: 30,
     flows: [],
   };
+  flagLoader: boolean = false;
   ngOnInit(): void {
     this.cargarcantRespantes()
     this.cargarFlows();
@@ -59,6 +61,7 @@ export class NewmasivosComponent implements OnInit {
   }
   SendMasivos() {
     this.masivo.flows = this.selectedFlows;
+    this.toogleLoader();
     this.masivosService.sendmasivos(this.masivo).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
@@ -66,6 +69,7 @@ export class NewmasivosComponent implements OnInit {
         icon: 'success',
         timer: 1500,
       });
+      
       this.selectedFlows = [];
       this.masivo = {
         name: "",
@@ -74,9 +78,13 @@ export class NewmasivosComponent implements OnInit {
         delaymax: 30,
         flows: [],
       };
+      this.toogleLoader();
       this.cargarcantRespantes();
       this.cargarFlows();
     });
+  }
+  toogleLoader(){
+    this.flagLoader = !this.flagLoader
   }
   cargarcantRespantes(){
     this.leadsService.cantRestantes().subscribe((res) => {

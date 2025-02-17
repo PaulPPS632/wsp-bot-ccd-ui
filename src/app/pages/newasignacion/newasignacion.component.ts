@@ -82,12 +82,12 @@ export class NewasignacionComponent {
     })
   }
   SendAsignacion() {
+    this.toogleLoader();
     this.parsearTexArea();
-    this.flagLoader = !this.flagLoader
     this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe({
       next:(res) => {
         this.RequestConrretoyLimpiar(res.message);
-        this.flagLoader = !this.flagLoader
+        this.toogleLoader();
       },
       error: (err) => {
         Swal.fire({
@@ -96,9 +96,12 @@ export class NewasignacionComponent {
           icon: 'error',
           timer: 1500,
         });
-        this.flagLoader = !this.flagLoader
+        this.toogleLoader();
       }
     });
+  }
+  toogleLoader(){
+    this.flagLoader = !this.flagLoader
   }
   RequestConrretoyLimpiar(message: string){
     Swal.fire({
@@ -134,6 +137,7 @@ export class NewasignacionComponent {
 
     // 🔹 Verificar si hay al menos un número válido antes de enviar
     if (phoneNumbers.length === 0) {
+      this.toogleLoader();
       Swal.fire({
         title: "Error",
         text: "Ingresa al menos un número válido con 9 dígitos.",

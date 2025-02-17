@@ -6,23 +6,36 @@ import { Flows } from '../../interfaces/Flows';
 import { CardmensajesComponent } from '../../component/cardmensajes/cardmensajes.component';
 import { FlowsService } from '../../services/flows.service';
 import Swal from 'sweetalert2';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-newflow',
-  imports: [ModalComponent, FormsModule, CardmensajesComponent,CdkDropList, CdkDrag],
+  imports: [
+    ModalComponent,
+    FormsModule,
+    CardmensajesComponent,
+    CdkDropList,
+    CdkDrag,
+  ],
   templateUrl: './newflow.component.html',
-  styleUrl: './newflow.component.css'
+  styleUrl: './newflow.component.css',
 })
 export class NewflowComponent implements OnInit {
-  @Input('id')id:string = '';
+  @Input('id') id: string = '';
   clonar: boolean = false;
   router = inject(ActivatedRoute);
   flowsServices = inject(FlowsService);
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
   flagCursos: boolean = false;
+  Cursos: string = "";
   NewFlow: Flows = {
     id: 0,
     name: '',
@@ -39,11 +52,10 @@ export class NewflowComponent implements OnInit {
     },
   };
   ngOnInit(): void {
-    this.router.queryParams.subscribe(params => {
+    this.router.queryParams.subscribe((params) => {
       this.clonar = params['clonar'] === 'true';
-      
-    })
-    if(this.id !== undefined){
+    });
+    if (this.id !== undefined) {
       //this.cargarFlows();
       this.flowLoad();
     }
@@ -51,13 +63,13 @@ export class NewflowComponent implements OnInit {
   flowLoad() {
     this.flowsServices.getById(this.id).subscribe((res) => {
       this.NewFlow = res.flow;
-      if(this.clonar){
-        this.NewFlow.name = this.NewFlow.name + ' (copy)'
+      if (this.clonar) {
+        this.NewFlow.name = this.NewFlow.name + ' (copy)';
       }
     });
   }
-  eliminarmensaje(posicion: number){
-    this.NewFlow.mensajes.splice(posicion - 1,1);
+  eliminarmensaje(posicion: number) {
+    this.NewFlow.mensajes.splice(posicion - 1, 1);
   }
   addNewMensaje() {
     this.NewFlow.mensajes.push(this.NewMensaje);
@@ -72,7 +84,7 @@ export class NewflowComponent implements OnInit {
     this.toggleflagModalNewMensaje();
   }
   CrearFlow() {
-    if(this.NewFlow.name == ''){
+    if (this.NewFlow.name == '') {
       Swal.fire({
         title: 'FALTA NOMBRE',
         text: 'NO PUEDES CREAR UN FLUJO SIN NOMBRE',
@@ -88,18 +100,17 @@ export class NewflowComponent implements OnInit {
         icon: 'success',
         timer: 1500,
       });
-      this.NewFlow ={
-        id:0,
-        name:'',
+      this.NewFlow = {
+        id: 0,
+        name: '',
         listacursos: [],
         variables: {},
-        mensajes:[]
-      }
+        mensajes: [],
+      };
     });
-
   }
-  EditarFlow(){
-    this.flowsServices.updateById(this.id,this.NewFlow).subscribe((res) => {
+  EditarFlow() {
+    this.flowsServices.updateById(this.id, this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
         text: res.message,
@@ -111,16 +122,38 @@ export class NewflowComponent implements OnInit {
   toggleflagModalNewMensaje() {
     this.flagModalNewMensaje = !this.flagModalNewMensaje;
   }
-  drop(event: CdkDragDrop<Mensaje[]>){
-        if (event.previousContainer === event.container) {
-          moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        } else {
-          transferArrayItem(
-            event.previousContainer.data,
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex,
-          );
-        }
-      }
+  drop(event: CdkDragDrop<Mensaje[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+  parsearTexArea() {
+    // 🔹 Convertir el contenido del textarea en un array 
+    let cursoslist = this.Cursos
+      .split(/\n+/) // Dividir por saltos de línea
+      .map((num) => num.trim()) // Quitar espacios extra
+      .filter((num) => num !== ''); // Eliminar líneas vacías
+
+    if (cursoslist.length === 0) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Ingresa al menos un curso para tu lista',
+        icon: 'error',
+      });
+      return;
+    }
+    this.NewFlow.listacursos = cursoslist;
+    // 🔹 Enviar los datos al servicio
+  }
 }
