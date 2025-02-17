@@ -43,8 +43,8 @@ export class BotsService {
       port:bot.port
     })
   }
-  search(search: string): Observable<any>{
-    return this.http.post<any>(`${this.apiUrl}/search`, {
+  search(search: string, imagebot: string): Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/search?imagebot=${imagebot}`, {
       search
     })
   }

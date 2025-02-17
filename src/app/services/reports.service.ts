@@ -20,4 +20,7 @@ export class ReportsService {
   leadsinteresados(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/leadsinteresados/${id}`);
   }
+  leadsAsignaciones(id: string){
+    return this.http.get<any>(`${this.apiUrl}/leadsasignaciones/${id}`);
+  }
 }

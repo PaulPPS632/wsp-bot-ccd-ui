@@ -12,8 +12,8 @@ import { CdkDragHandle } from '@angular/cdk/drag-drop';
 export class CardmensajesComponent {
   @Input() posicion: number = 1;
   @Input() mensaje!: Mensaje;
-  @Output() MensajeChange = new EventEmitter<Mensaje>();
+  @Output() MensajeChange = new EventEmitter<number>();
   Eliminar(){
-    this.MensajeChange.emit(this.mensaje);
+    this.MensajeChange.emit(this.posicion);
   }
 }

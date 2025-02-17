@@ -1,14 +1,19 @@
 <div class="flex flex-row flex-nowrap justify-start items-center gap-2 bg-gradient-to-r from-[#111f42] to-[#39a0fe] py-2 px-4">
     <div>
         <label class="block text-base text-white" for="cantidad">Nombre:</label>
-        <input type="text" name="name" id="name" class="rounded-md h-10" [(ngModel)]="NewFlow.name" />
+        <input type="text" name="name" id="name" class="rounded-md h-10 w-96" [(ngModel)]="NewFlow.name" />
     </div>
   @if (id !== undefined) {
-    <button type="button" (click)="EditarFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >EDITAR FLOW</button>
+    @if (clonar) {
+      <button type="button" (click)="CrearFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
 
+    }@else {
+      <button type="button" (click)="EditarFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >EDITAR FLOW</button>
+    }
   }@else {
     <button type="button" (click)="CrearFlow()" class="my-auto px-4 py-2 bg-cyan-500 text-cyan-950 border-cyan-500 border-2 hover:bg-white hover:cursor-pointer w-28 h-14 rounded-md text-sm font-bold transition-all" >CREAR FLOW</button>
   }
+
   <div class="flex items-center">
     <input id="default-checkbox" type="checkbox" [(ngModel)]="flagCursos" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
     <label for="default-checkbox" class="ms-2 text-sm font-medium text-white">Activar Cursos</label>
@@ -67,7 +72,7 @@
     (cdkDropListDropped)="drop($event)"
     >
     @for (mensaje of NewFlow.mensajes; track $index) {
-        <app-cardmensajes cdkDragLockAxis="y" cdkDrag [mensaje]="mensaje" [posicion]="$index +1"/>
+        <app-cardmensajes cdkDragLockAxis="y" cdkDrag [mensaje]="mensaje" [posicion]="$index +1" (MensajeChange)="eliminarmensaje($event)"/>
     }
     <button type="button" class="flex flex-row items-center justify-center gap-4 hover:scale-105 hover:font-bold transition-all"  (click)="toggleflagModalNewMensaje()">
       <div class="rounded-full border-2 border-gray-800 ">

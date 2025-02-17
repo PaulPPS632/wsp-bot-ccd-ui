@@ -61,7 +61,7 @@ export class NewasignacionComponent {
     this.NewAsignacion.flow = this.flows.find((flow) => flow.id == id);
   }
   botSearch(searchBot: string){
-    this.botService.search(searchBot).subscribe((res) => {
+    this.botService.search(searchBot,'asignacion').subscribe((res) => {
       this.bots = res.bots;
     });
   }
@@ -72,14 +72,17 @@ export class NewasignacionComponent {
     this.flagConfigurar = !this.flagConfigurar;
   }
   enviarConfiguracion(){
+    this.parsearTexArea();
     const fechaISO = new Date(this.fechaConfiguracion).toISOString();
     console.log(this.fechaConfiguracion);
     console.log(fechaISO);
     this.asignacionesService.ProgramacionAsignacion(this.NewAsignacion, fechaISO).subscribe((res)=>{
       this.RequestConrretoyLimpiar(res.message);
+      this.modalconfigurar();
     })
   }
   SendAsignacion() {
+    this.parsearTexArea();
     this.flagLoader = !this.flagLoader
     this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe({
       next:(res) => {
@@ -140,7 +143,7 @@ export class NewasignacionComponent {
     }
     this.NewAsignacion.numeros = phoneNumbers;
     // 🔹 Enviar los datos al servicio
-    this.SendAsignacion();
+
   }
   onKeyPress(event: KeyboardEvent) {
     // Permitir solo números y algunas teclas especiales como Backspace
