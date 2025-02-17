@@ -9,10 +9,11 @@ import { Asignaciones } from '../../interfaces/Asignaciones';
 import Swal from 'sweetalert2';
 import { SelectSearchComponent } from "../../component/select-search/select-search.component";
 import { ModalComponent } from "../../component/modal/modal.component";
+import { LoaderComponent } from "../../component/loader/loader.component";
 
 @Component({
   selector: 'app-newasignacion',
-  imports: [FormsModule, SelectSearchComponent, ModalComponent],
+  imports: [FormsModule, SelectSearchComponent, ModalComponent, LoaderComponent],
   templateUrl: './newasignacion.component.html',
   styleUrl: './newasignacion.component.css'
 })
@@ -33,6 +34,7 @@ export class NewasignacionComponent {
     delaymax: 30,
   }
   numeros: string = ''; 
+  flagLoader: boolean = false;
   ngOnInit(): void {
     this.botSearch('');
     this.flowSearch('');
@@ -78,8 +80,21 @@ export class NewasignacionComponent {
     })
   }
   SendAsignacion() {
-    this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe((res) => {
-      this.RequestConrretoyLimpiar(res.message);
+    this.flagLoader = !this.flagLoader
+    this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe({
+      next:(res) => {
+        this.RequestConrretoyLimpiar(res.message);
+        this.flagLoader = !this.flagLoader
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'ERROR',
+          text: err.message,
+          icon: 'error',
+          timer: 1500,
+        });
+        this.flagLoader = !this.flagLoader
+      }
     });
   }
   RequestConrretoyLimpiar(message: string){
