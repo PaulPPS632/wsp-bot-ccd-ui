@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL;
+  apiUrl: string = `http://${window.location.hostname}:8000/api`;
 
   getBots(): Observable<Bot[]>{
     return this.http.get<Bot[]>(`${this.apiUrl}/bots`);

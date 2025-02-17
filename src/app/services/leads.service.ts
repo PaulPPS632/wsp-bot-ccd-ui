@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class LeadsService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL + '/leads';
+  apiUrl: string = `http://${window.location.hostname}:8000/api/leads`;
   constructor() { }
   excel():Observable<Blob>{
     return this.http.get(`${this.apiUrl}/excel`, {

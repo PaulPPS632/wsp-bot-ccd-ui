@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ReportsService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL + '/reports';
+  apiUrl: string = `http://${window.location.hostname}:8000/api/reports`;
   constructor() {}
 
   masivos(): Observable<any> {

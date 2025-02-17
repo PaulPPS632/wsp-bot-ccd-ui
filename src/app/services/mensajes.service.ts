@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class MensajesService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL + '/mensajes';
+  apiUrl: string = `http://${window.location.hostname}:8000/api/mensajes`;
   constructor() {}
 
   create(mensaje: Mensaje): Observable<any> {

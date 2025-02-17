@@ -9,7 +9,7 @@ import { Bot } from '../interfaces/Bot';
 })
 export class BotsService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL + "/bots";
+  apiUrl: string = `http://${window.location.hostname}:8000/api/bots`;
   constructor() {}
 
   getBots(): Observable<Bot[]> {

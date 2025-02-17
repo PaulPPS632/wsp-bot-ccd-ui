@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MasivosService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL + '/masivos';
+  apiUrl: string = `http://${window.location.hostname}:8000/api/masivos`;
   constructor() {}
   sendmasivos(masivos: Masivo) {
     return this.http.post<any>(`${this.apiUrl}`, {

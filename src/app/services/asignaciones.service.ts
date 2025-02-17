@@ -9,7 +9,7 @@ import { Asignaciones } from '../interfaces/Asignaciones';
 })
 export class AsignacionesService {
   http = inject(HttpClient);
-  apiUrl: string = environment.API_URL + '/asignaciones';
+  apiUrl: string = `http://${window.location.hostname}:8000/api/asignaciones`;
   constructor() {}
   SendAsignaciones(asignaciones: Asignaciones): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}`, { asignaciones });
