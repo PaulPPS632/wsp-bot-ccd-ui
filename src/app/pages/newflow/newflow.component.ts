@@ -39,7 +39,7 @@ export class NewflowComponent implements OnInit {
   NewFlow: Flows = {
     id: 0,
     name: '',
-    listacursos: [],
+    cursos: [],
     variables: {},
     mensajes: [],
   };
@@ -63,8 +63,13 @@ export class NewflowComponent implements OnInit {
   flowLoad() {
     this.flowsServices.getById(this.id).subscribe((res) => {
       this.NewFlow = res.flow;
+      if(res.flow.cursos != null && res.flow.cursos.length > 0){
+        this.Cursos = this.NewFlow.cursos.join("\n");
+        this.flagCursos = true;
+      }
       if (this.clonar) {
         this.NewFlow.name = this.NewFlow.name + ' (copy)';
+        
       }
     });
   }
@@ -93,6 +98,7 @@ export class NewflowComponent implements OnInit {
       });
       return;
     }
+    this.parsearTexArea();
     this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
@@ -103,13 +109,14 @@ export class NewflowComponent implements OnInit {
       this.NewFlow = {
         id: 0,
         name: '',
-        listacursos: [],
+        cursos: [],
         variables: {},
         mensajes: [],
       };
     });
   }
   EditarFlow() {
+    this.parsearTexArea();
     this.flowsServices.updateById(this.id, this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
@@ -153,7 +160,7 @@ export class NewflowComponent implements OnInit {
       });
       return;
     }
-    this.NewFlow.listacursos = cursoslist;
+    this.NewFlow.cursos = cursoslist;
     // 🔹 Enviar los datos al servicio
   }
 }

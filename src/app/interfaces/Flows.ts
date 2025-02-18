@@ -3,7 +3,7 @@ import { Mensaje } from "./Mensaje";
 export interface Flows {
     id: number;
     name: string;
-    listacursos: string[];
+    cursos: string[];
     variables: any;
     mensajes: Mensaje[];
 }

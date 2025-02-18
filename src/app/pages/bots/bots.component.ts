@@ -9,10 +9,11 @@ import { WebsocketService } from '../../services/websocket.service';
 import { Subscription } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { LoaderComponent } from "../../component/loader/loader.component";
 
 @Component({
   selector: 'app-bots',
-  imports: [CardBotComponent, FormsModule, FontAwesomeModule],
+  imports: [CardBotComponent, FormsModule, FontAwesomeModule, LoaderComponent],
   templateUrl: './bots.component.html',
   styleUrl: './bots.component.css'
 })
@@ -30,7 +31,7 @@ export class BotsComponent implements OnInit, OnDestroy {
   };
   masivo: number = 0;
   private subscription!: Subscription;
-
+  flagLoader: boolean = false;
   ngOnInit(): void {
     // 🔹 Cargar bots iniciales desde la API
     
@@ -102,20 +103,24 @@ export class BotsComponent implements OnInit, OnDestroy {
   }
 
   CreateBot() {
+    this.toogleLoader();
     this.botsService.createBot(this.newBot.phone, this.newBot.imagebot,this.newBot.name).subscribe((res) => {
       Swal.fire({
         title: "Tu conexión",
         text: `Conéctate con este código: ${res.pairingCode}`,
         icon: "success"
       });
+      this.toogleLoader();
       this.cargarbots();
     });
   }
 
   StopBots() {
+    this.toogleLoader();
     this.botsService.stopBots().subscribe((res) => {
       if (!res.status) {
         this.bots.forEach(bot => bot.status = false);
+        this.toogleLoader();
         Swal.fire({
           title: "ESTADO",
           text: `Se detuvieron correctamente`,
@@ -127,9 +132,11 @@ export class BotsComponent implements OnInit, OnDestroy {
   }
 
   StartBots() {
+    this.toogleLoader();
     this.botsService.startBots().subscribe((res) => {
       if (res.status) {
         this.bots.forEach(bot => bot.status = true);
+        this.toogleLoader();
         Swal.fire({
           title: "ESTADO",
           text: `Se activaron correctamente`,
@@ -145,5 +152,8 @@ export class BotsComponent implements OnInit, OnDestroy {
     if (botIndex !== -1) {
       this.bots[botIndex] = updatedBot;
     }
+  }
+  toogleLoader(){
+    this.flagLoader = !this.flagLoader
   }
 }
