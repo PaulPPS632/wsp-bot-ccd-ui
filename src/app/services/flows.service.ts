@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class FlowsService {
   http = inject(HttpClient);
-  apiUrl: string = `http://${window.location.hostname}:8000/api/flows`;
+  apiUrl: string = environment.API_URL + `/flows`;
   constructor() {}
     create(flow: Flows): Observable<any> {
       return this.http.post<any>(`${this.apiUrl}`, { flow });
