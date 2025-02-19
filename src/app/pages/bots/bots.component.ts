@@ -37,9 +37,7 @@ export class BotsComponent implements OnInit, OnDestroy {
     
     this.cargarbots();
     // 🔹 Escuchar actualizaciones de estado en tiempo real desde WebSocket
-    this.subscription = this.websocketService.listenBotsStatus().subscribe((data) => {
-      console.log('🔔 Estado de bots recibido:', data);
-    
+    this.subscription = this.websocketService.listenBotsStatus().subscribe((data) => {    
       if (Array.isArray(data)) {
         this.bots.forEach(bot => {
           const updatedBot = data.find((b: Bot) => b.containerId === bot.containerId);

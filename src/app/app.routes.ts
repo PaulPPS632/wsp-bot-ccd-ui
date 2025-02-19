@@ -1,15 +1,27 @@
 import { Routes } from '@angular/router';
-
+import { authGuard } from './auth.guard';
 export const routes: Routes = [
+    
+    
+    {
+        path:'login',
+        loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
+    }
+    ,
+    {
+        path: '',
+        redirectTo: 'login', // Redirige a 'bots'
+        pathMatch: 'full', // pathMatch para que coincida exactamente
+    },
     {
         path:'',
+        canActivate:[authGuard],
+        data:{
+            title:'Dashboard',
+            roles: ['admin', 'usuario']
+        },
         loadComponent:() => import('./component/layout/layout.component').then((m) => m.LayoutComponent),
         children:[
-            {
-                path: '',
-                redirectTo: 'bots', // Redirige a 'bots'
-                pathMatch: 'full', // pathMatch para que coincida exactamente
-            },
             {
                 path: 'bots',
                 loadComponent: () => import('./pages/bots/bots.component').then((m) => m.BotsComponent)
@@ -43,8 +55,16 @@ export const routes: Routes = [
             {
                 path: 'newasignacion',
                 loadComponent: () => import('./pages/newasignacion/newasignacion.component').then((m) => m.NewasignacionComponent)
+            },
+            {
+                path: 'usuarios',
+                loadComponent: () => import('./pages/usuarios/usuarios.component').then((m) => m.UsuariosComponent)
             }
         ]
-          
+    },
+    {
+        path: '**',
+        redirectTo: 'login', // Redirige a 'bots'
+        pathMatch: 'full', // pathMatch para que coincida exactamente
     },
 ];
