@@ -5,16 +5,16 @@
       >{{ title }}</label
     >
     <div class="flex flex-row items-center justify-between gap-2 w-full">
-      <div class="relative w-full">
+      <div class="relative w-full max-w-96">
         <div
-          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg flex flex-row flex-nowrap items-center justify-between gap-4 text-sm cursor-pointer w-full h-10 p-2"
+          class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg flex flex-row flex-nowrap items-center justify-between gap-4 text-sm cursor-pointer h-fit p-2"
           tabindex="0"
           (click)="tooglebusqueda()"
           (keydown.enter)="tooglebusqueda()"
           (keydown.space)="tooglebusqueda()"
         >
-          <span>{{
-            SelectedText === "" ? "SELECIONA UN PRODUCTO" : SelectedText
+          <span class="max-w-96"> {{
+            SelectedText === "" ? "SELECIONA" : SelectedText
           }}</span>
           <svg
             class="w-4 h-4 text-gray-800 transition-all"
@@ -35,7 +35,7 @@
         </div>
   
         <div
-          class="absolute top-full border border-gray-950 rounded-lg p-2 bg-white shadow-lg z-50"
+          class="absolute top-full border border-gray-950 rounded-lg p-2 bg-white shadow-lg z-50 max-w-96"
           [ngClass]="{
             'inicial-style': inicial,
             'expand-animation-container': flagbusqueda && !inicial,

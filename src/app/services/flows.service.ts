@@ -21,9 +21,8 @@ export class FlowsService {
       return this.http.delete<any>(`${this.apiUrl}/${id}`,{headers: this.headers});
     }
     
-    listar():Observable<any>{
-      console.log(this.apiUrl)
-      return this.http.get<any>(this.apiUrl,{headers: this.headers});
+    listar(flagMasivos: boolean):Observable<any>{
+      return this.http.get<any>(`${this.apiUrl}?masivos=${flagMasivos}`,{headers: this.headers});
     }
     getById(id: string):Observable<any>{
       return this.http.get<any>(`${this.apiUrl}/${id}`,{headers: this.headers});

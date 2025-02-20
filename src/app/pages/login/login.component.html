@@ -10,7 +10,7 @@
             </div>
             <div>
                 <label class="block text-white text-lg" for="usename">password:</label>
-                <input placeholder="********" type="password" class="rounded-md text-[#111f42] font-bold" [(ngModel)]="usuario.password">
+                <input placeholder="********" type="password" class="rounded-md text-[#111f42] font-bold" [(ngModel)]="usuario.password" (keydown.enter)="login()">
             </div>
         </div>
         <button (click)="login()" type="button" class="font-bold bg-[#111f42] hover:bg-[#162f6e] transition-colors text-white px-4 py-1 rounded-md text-lg">login</button>

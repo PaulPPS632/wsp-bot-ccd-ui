@@ -55,7 +55,7 @@ export class NewmasivosComponent implements OnInit {
     }
   }
   cargarFlows(){
-    this.flowsService.listar().subscribe((res) => {
+    this.flowsService.listar(true).subscribe((res) => {
       this.listaFlows = res.flows;
     })
   }

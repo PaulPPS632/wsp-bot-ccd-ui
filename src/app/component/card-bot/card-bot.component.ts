@@ -18,10 +18,16 @@ export class CardBotComponent {
 
   @Input() bot!: Bot;
   @Output() statusChanged = new EventEmitter<Bot>();
+
+  @Input() isOpen: boolean = false;
+  @Output() isOpenChange = new EventEmitter<boolean>();
+  
   botsService = inject(BotsService);
   ToggleStatus(){
+    this.toggleLoad();
     if(this.bot.status){
       this.botsService.offBot(this.bot.containerId).subscribe((res)=>{
+        this.toggleLoad();
         if(res.status){
           this.bot.status = false; 
           this.statusChanged.emit(this.bot);
@@ -42,6 +48,7 @@ export class CardBotComponent {
       })
     }else{
       this.botsService.onBot(this.bot.containerId).subscribe((res)=>{
+        this.toggleLoad();
         if(res.status){
           this.bot.status = true; 
           this.statusChanged.emit(this.bot);
@@ -79,15 +86,25 @@ export class CardBotComponent {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.botsService.deletecache(this.bot.id).subscribe((res) => {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success"
-          });
+        this.toggleLoad();
+        this.botsService.deletecache(this.bot.id).subscribe({
+          next: (res) => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+            this.toggleLoad();
+          },
+          error: (err) => {
+            this.toggleLoad();
+          }
         })
       }
     });
-    
+  }
+  toggleLoad(){
+    this.isOpen = !this.isOpen;
+    this.isOpenChange.emit(this.isOpen);
   }
 }

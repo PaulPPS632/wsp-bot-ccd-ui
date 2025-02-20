@@ -25,6 +25,9 @@ export class UsuariosComponent implements OnInit {
   authService = inject(AuthService);
 
   ngOnInit(): void {
+    this.cargarusuarios();
+  }
+  cargarusuarios(){
     this.authService.listar().subscribe((res) => {
       this.usuarios = res.usuarios;
     })
@@ -45,9 +48,10 @@ export class UsuariosComponent implements OnInit {
           text: 'usuario creado con exito',
           timer: 1000
         })
-        
+        this.cargarusuarios();
       },
       error: (err)=>{
+        this.flagModal = false;
         Swal.fire({
           icon: 'error',
           title:'Error al crear usuario',

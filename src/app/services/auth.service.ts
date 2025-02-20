@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Usuario } from '../interfaces/usuario';
 import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
@@ -73,6 +73,9 @@ export class AuthService {
     return this.http.get<any>(this.apiUrl);
   }
   crear(usuario: Usuario):Observable<any>{
-    return this.http.post<any>(this.apiUrl,{usuario});
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    })
+    return this.http.post<any>(this.apiUrl,{usuario},{headers});
   }
 }

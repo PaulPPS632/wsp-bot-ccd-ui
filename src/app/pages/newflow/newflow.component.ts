@@ -35,7 +35,7 @@ export class NewflowComponent implements OnInit {
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
   flagCursos: boolean = false;
-  Cursos: string = "";
+  Cursos: string | undefined = "";
   NewFlow: Flows = {
     id: 0,
     name: '',
@@ -64,7 +64,7 @@ export class NewflowComponent implements OnInit {
     this.flowsServices.getById(this.id).subscribe((res) => {
       this.NewFlow = res.flow;
       if(res.flow.cursos != null && res.flow.cursos.length > 0){
-        this.Cursos = this.NewFlow.cursos.join("\n");
+        this.Cursos = this.NewFlow.cursos?.join("\n");
         this.flagCursos = true;
       }
       if (this.clonar) {
@@ -147,20 +147,13 @@ export class NewflowComponent implements OnInit {
   }
   parsearTexArea() {
     // 🔹 Convertir el contenido del textarea en un array 
+    if(!this.Cursos) {this.NewFlow.cursos = null; return;}
     let cursoslist = this.Cursos
       .split(/\n+/) // Dividir por saltos de línea
       .map((num) => num.trim()) // Quitar espacios extra
       .filter((num) => num !== ''); // Eliminar líneas vacías
-
-    if (cursoslist.length === 0) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Ingresa al menos un curso para tu lista',
-        icon: 'error',
-      });
-      return;
-    }
-    this.NewFlow.cursos = cursoslist;
+      console.log(cursoslist.length === 0 ? null : cursoslist);
+    this.NewFlow.cursos = cursoslist.length === 0 ? null : cursoslist;
     // 🔹 Enviar los datos al servicio
   }
 }

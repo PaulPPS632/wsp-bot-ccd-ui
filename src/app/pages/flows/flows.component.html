@@ -1,7 +1,8 @@
 <div class="bg-gradient-to-r from-[#111f42] to-[#39a0fe]">
   <h2 class="text-2xl font-bold p-4 text-white text-center">FLOWS REGISTRADOS</h2>
 </div>
-<div class="w-full flex h-16 items-center justify-end">
+<div class="w-full flex h-16 items-center justify-start px-4 gap-4">
+  <input type="text" (change)="flowSearch($event)" class="rounded-md" placeholder="buscador">
   <button class="px-4 py-1 text-white bg-[#111f42] hover:text-[#111f42] border-[#111f42] border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
   [routerLink]="['/newflows']"
   >NUEVO FLOW</button>
@@ -23,7 +24,8 @@
     <tbody>
       @for (flows of CurrentFlows; track $index) {
       <tr
-        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+        [routerLink]="['/newflows',flows.id]"
       >
       <td class="px-6 py-4">
         {{ flows.id }}
@@ -31,15 +33,15 @@
         <td class="px-6 py-4">
           {{ flows.name }}
         </td>
-        <td>
+        <td class="flex flex-row gap-4 items-center justify-start px-6 py-4">
           <button [routerLink]="['/newflows',flows.id]" class="hover:scale-110 transition-all">
             <svg 
-            class="w-6 h-6 text-[#111f42] hover:text-[#22408d]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            class="w-6 h-6 text-[#111f42] hover:bg-[#111f42] hover:text-white transition-colors rounded-md" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
             </svg>
           </button>
           <button [routerLink]="['/newflows',flows.id]" [queryParams]="{ clonar: true }" class="hover:scale-110 transition-all">
-            <svg class="w-6 h-6 text-[#111f42] hover:text-[#22408d]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-[#111f42] hover:bg-[#111f42] hover:text-white transition-colors rounded-md" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 4v3a1 1 0 0 1-1 1h-3m2 10v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L6.7 8.35A1 1 0 0 1 7.46 8H9m-1 4H4m16-7v10a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V7.87a1 1 0 0 1 .24-.65l2.46-2.87a1 1 0 0 1 .76-.35H19a1 1 0 0 1 1 1Z"/>
             </svg>
           </button>

@@ -46,7 +46,7 @@ export class NewasignacionComponent {
     });
   }
   FlowsLoad(): void {
-    this.flowService.listar().subscribe((res) => {
+    this.flowService.listar(false).subscribe((res) => {
       this.flows = res.flows;
     });
   }

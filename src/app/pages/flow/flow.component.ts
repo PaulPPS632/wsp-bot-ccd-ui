@@ -26,6 +26,8 @@ export class FlowComponent implements OnInit {
   flow: Flows = {
     id: 0,
     name: '',
+    cursos: [],
+    variables:'',
     mensajes: [],
   };
   ngOnInit(): void {
