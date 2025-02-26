@@ -10,7 +10,8 @@
   </div>
   <div class="flex flex-col items-start justify-center gap-4 min-w-[380px] max-w-[400px]">
 
-    <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md h-fit text-sm">
+    <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md h-fit text-sm"
+    (change)="limpiarBodyNewMensaje()">
       <option value="texto">texto</option>
       <option value="imagen">imagen</option>
       <option value="video">video</option>
@@ -18,16 +19,30 @@
     </select>
     @if (mensaje.tipo == "imagen") {
       <img [src]="mensaje.content.body" alt="una imagen" class="h-56 object-contain mx-auto rounded-md">
+    }@else if (mensaje.tipo == "video") {
+      <video [src]="mensaje.content.body" controls></video>
+    }@else if(mensaje.tipo == "documento"){
+      <iframe [src]="sanitizedBody" class="min-h-96  w-full"></iframe>
     }
-    <div class="w-full">
-      <label for="contentbody" class="text-base text-black font-bold">body:</label>
-      <textarea
-        name="contentbody"
-        id="contentbody"
-        class="styletextarea rounded-md w-full"
-        [(ngModel)]="mensaje.content.body"
-      ></textarea>
-    </div>
+    @if (mensaje.tipo == 'texto') {
+      <div class="w-full">
+        <label for="contentbody" class="text-base text-black font-bold">body:</label>
+        <textarea
+          name="contentbody"
+          id="contentbody"
+          class="styletextarea rounded-md w-full"
+          [(ngModel)]="mensaje.content.body"
+        ></textarea>
+      </div>
+    }
+    @if (mensaje.tipo != "texto") {
+      <input 
+      (change)="onFileSelected($event)" 
+      class="block w-full text-sm text-blue-500 border border-gray-400 rounded-lg cursor-pointer bg-white focus:outline-none " 
+      id="file" name="files" type="file"
+      [accept]="mensaje.tipo == 'imagen' ? 'image/*' : mensaje.tipo == 'video' ? 'video/*':'.pdf'"
+      >
+    }
     @if (mensaje.tipo != "texto") {
     <textarea
       name="contentbody"
@@ -44,3 +59,4 @@
   </button>
 
 </div>
+<app-loader [(isOpen)]="flagLoader"></app-loader>

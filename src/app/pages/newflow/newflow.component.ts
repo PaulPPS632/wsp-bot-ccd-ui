@@ -14,7 +14,10 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
-
+import { ArchivosService } from '../../services/archivos.service';
+import { lastValueFrom } from 'rxjs';
+import { LoaderComponent } from "../../component/loader/loader.component";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-newflow',
   imports: [
@@ -23,7 +26,8 @@ import { ActivatedRoute } from '@angular/router';
     CardmensajesComponent,
     CdkDropList,
     CdkDrag,
-  ],
+    LoaderComponent
+],
   templateUrl: './newflow.component.html',
   styleUrl: './newflow.component.css',
 })
@@ -32,6 +36,9 @@ export class NewflowComponent implements OnInit {
   clonar: boolean = false;
   router = inject(ActivatedRoute);
   flowsServices = inject(FlowsService);
+  archivosService = inject(ArchivosService);
+  sanitizer = inject(DomSanitizer);
+
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
   flagCursos: boolean = false;
@@ -51,6 +58,7 @@ export class NewflowComponent implements OnInit {
       footer: '',
     },
   };
+  flagLoader: boolean = false;
   ngOnInit(): void {
     this.router.queryParams.subscribe((params) => {
       this.clonar = params['clonar'] === 'true';
@@ -76,6 +84,7 @@ export class NewflowComponent implements OnInit {
   eliminarmensaje(posicion: number) {
     this.NewFlow.mensajes.splice(posicion - 1, 1);
   }
+  
   addNewMensaje() {
     this.NewFlow.mensajes.push(this.NewMensaje);
     this.NewMensaje = {
@@ -88,6 +97,37 @@ export class NewflowComponent implements OnInit {
     };
     this.toggleflagModalNewMensaje();
   }
+
+  onFileSelected(event: Event): void {
+    const selectedFiles = event.target.files;
+    if (selectedFiles && selectedFiles.length > 0) {
+      const formData = new FormData();
+      
+      // Limitar a solo un archivo
+      const file = selectedFiles[0]; 
+      formData.append('files', file);
+      console.log(file);
+      // Enviar el archivo al backend
+      this.flagLoader = true;
+      const url = await this.uploadFile(formData).then(
+        res => {
+          this.flagLoader = false;
+          return res
+      });
+      if(url){
+        this.NewMensaje.content.body = url;
+      }
+    }
+  }
+async uploadFile(form: FormData): Promise<string>{
+  try {
+    const response = await lastValueFrom(this.archivosService.uploadImage(form));
+    return response.fileUrl;
+  } catch (error) {
+    console.error('Error al subir el archivo:', error);
+    return ''; 
+  }
+}
   CrearFlow() {
     if (this.NewFlow.name == '') {
       Swal.fire({
@@ -99,6 +139,10 @@ export class NewflowComponent implements OnInit {
       return;
     }
     this.parsearTexArea();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5a25fbdaae9e32dfcf43eb9af2d095050e14e48d
     this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
@@ -155,5 +199,13 @@ export class NewflowComponent implements OnInit {
       console.log(cursoslist.length === 0 ? null : cursoslist);
     this.NewFlow.cursos = cursoslist.length === 0 ? null : cursoslist;
     // 🔹 Enviar los datos al servicio
+  }
+  get sanitizedBody(): SafeResourceUrl {
+    return typeof this.NewMensaje.content.body === 'string' 
+      ? this.sanitizer.bypassSecurityTrustResourceUrl(this.NewMensaje.content.body)
+      : this.NewMensaje.content.body;
+  }
+  limpiarBodyNewMensaje(){
+    this.NewMensaje.content.body = '';
   }
 }
