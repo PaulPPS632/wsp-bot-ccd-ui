@@ -53,7 +53,7 @@ export class NewasignacionComponent {
 
 
   flowSearch(searchFlow: string){
-    this.flowService.search(searchFlow).subscribe((res) => {
+    this.flowService.search(searchFlow, false).subscribe((res) => {
       this.flows = res.flows;
     });
   }

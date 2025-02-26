@@ -98,7 +98,7 @@ export class NewflowComponent implements OnInit {
     this.toggleflagModalNewMensaje();
   }
 
-  onFileSelected(event: Event): void {
+  async onFileSelected(event: any): Promise<void> {
     const selectedFiles = event.target.files;
     if (selectedFiles && selectedFiles.length > 0) {
       const formData = new FormData();
@@ -139,10 +139,6 @@ async uploadFile(form: FormData): Promise<string>{
       return;
     }
     this.parsearTexArea();
-<<<<<<< HEAD
-=======
-
->>>>>>> 5a25fbdaae9e32dfcf43eb9af2d095050e14e48d
     this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',

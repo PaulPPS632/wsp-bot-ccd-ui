@@ -44,7 +44,6 @@ export class NewmasivosComponent implements OnInit {
   numerosParseados: number[] = [];
   ngOnInit(): void {
     this.cargarcantRespantes()
-    this.cargarFlows();
     this.flowSearch('');
   }
   drop(event: CdkDragDrop<Flows[]>){
@@ -60,13 +59,13 @@ export class NewmasivosComponent implements OnInit {
     }
   }
   cargarFlows(){
-    this.flowsService.listar(false).subscribe((res) => {
+    this.flowsService.listar(true).subscribe((res) => {
       this.listaFlows = res.flows;
     })
   }
 
   flowSearch(searchFlow: string){
-    this.flowsService.search(searchFlow).subscribe((res) => {
+    this.flowsService.search(searchFlow, true).subscribe((res) => {
       this.listaFlows = res.flows;
     });
   }
@@ -164,26 +163,28 @@ export class NewmasivosComponent implements OnInit {
   SendMasivos() {
     this.masivo.flows = this.selectedFlows;
     this.toogleLoader();
-    this.masivosService.sendmasivos(this.masivo).subscribe((res) => {
-      Swal.fire({
-        title: 'ESTADO',
-        text: res.message,
-        icon: 'success',
-        timer: 1500,
+    if(!this.isActive){
+      this.masivosService.sendmasivos(this.masivo).subscribe((res) => {
+        Swal.fire({
+          title: 'ESTADO',
+          text: res.message,
+          icon: 'success',
+          timer: 1500,
+        });
+        
+        this.selectedFlows = [];
+        this.masivo = {
+          name: "",
+          cant: 0,
+          delaymin: 0,
+          delaymax: 30,
+          flows: [],
+        };
+        this.toogleLoader();
+        this.cargarcantRespantes();
+        this.cargarFlows();
       });
-      
-      this.selectedFlows = [];
-      this.masivo = {
-        name: "",
-        cant: 0,
-        delaymin: 0,
-        delaymax: 30,
-        flows: [],
-      };
-      this.toogleLoader();
-      this.cargarcantRespantes();
-      this.cargarFlows();
-    });
+    }
   }
   toogleLoader(){
     this.flagLoader = !this.flagLoader
