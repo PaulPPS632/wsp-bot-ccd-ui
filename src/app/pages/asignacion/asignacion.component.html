@@ -22,6 +22,7 @@
               <th scope="col" class="px-6 py-3 text-white">Bot Nombre</th>
               <th scope="col" class="px-6 py-3 text-white">Bot Cel.</th>
               <th scope="col" class="px-6 py-3 text-white">Flow</th>
+              <th scope="col" class="px-6 py-3 text-white">Usuario</th>
               <th scope="col" class="px-6 py-3 text-white">Accion</th>
             </tr>
           </thead>
@@ -47,10 +48,12 @@
               </td>
               
               <td class="px-6 py-4">
-                <button (click)="modalFlow" >
-
+                <button (click)="toggleModalFlow(asignacion.currentflow)" class="px-4 py-2 bg-green-200">
+                  {{ asignacion.flowname }}
                 </button>
-                {{ asignacion.flowname }}
+              </td>
+              <td class="px-6 py-4">
+                {{ asignacion.usuario }}
               </td>
               <td class="px-6 py-4">
                 <svg 
@@ -71,4 +74,28 @@
         </table>
       </div>
 </article>
+<!-- <app-modal [(isOpen)]="modalFlow">
+  @for (item of currentflow?.mensajes; track $index) {
+    <div>
+      <span>{{item.content.body}}</span>
+    </div>
+  }
+</app-modal> -->
+<app-modal [(isOpen)]="modalFlow">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Ventana de informacion</h2>
 
+    <div class="space-y-3">
+      @for (item of currentflow?.mensajes; track $index) {
+        <div class="bg-gray-100 p-3 rounded-lg shadow-sm">
+          <span class="text-gray-700">{{ item.content.body }}</span>
+        </div>
+      }
+    </div>
+    <button 
+      class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      (click)="modalFlow = false">
+      Cerrar
+    </button>
+  </div>
+</app-modal>
