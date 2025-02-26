@@ -103,7 +103,7 @@ export class NewflowComponent implements OnInit {
 files: File[]=[];
 onFileSelected(event: Event): void {
   const input = event.target as HTMLInputElement;
-  this.files.push(Array.from(event.target.files));
+  //this.files.push(Array.from(event.target.files));
   if (input.files && input.files.length > 0) {
     this.selectedFile = input.files[0];
     this.files.push(this.selectedFile);
@@ -141,10 +141,8 @@ createFormData(flow: Flows): FormData{
       return;
     }
     this.parsearTexArea();
-    const form = this.createFormData(this.NewFlow);
 
-
-    this.flowsServices.create(form).subscribe((res) => {
+    this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
         text: res.message,
