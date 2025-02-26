@@ -14,6 +14,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
+import { ArchivosService } from '../../services/archivos.service';
 
 @Component({
   selector: 'app-newflow',
@@ -32,6 +33,7 @@ export class NewflowComponent implements OnInit {
   clonar: boolean = false;
   router = inject(ActivatedRoute);
   flowsServices = inject(FlowsService);
+  archivosService = inject(ArchivosService);
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
   flagCursos: boolean = false;
@@ -51,6 +53,7 @@ export class NewflowComponent implements OnInit {
       footer: '',
     },
   };
+  selectedFile: File | null = null;
   ngOnInit(): void {
     this.router.queryParams.subscribe((params) => {
       this.clonar = params['clonar'] === 'true';
@@ -76,6 +79,7 @@ export class NewflowComponent implements OnInit {
   eliminarmensaje(posicion: number) {
     this.NewFlow.mensajes.splice(posicion - 1, 1);
   }
+  
   addNewMensaje() {
     this.NewFlow.mensajes.push(this.NewMensaje);
     this.NewMensaje = {
@@ -88,6 +92,44 @@ export class NewflowComponent implements OnInit {
     };
     this.toggleflagModalNewMensaje();
   }
+    
+/*
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    let res = this.archivosService.uploadImage(this.selectedFile!);
+    console.log(res);
+  }
+*/
+files: File[]=[];
+onFileSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  this.files.push(Array.from(event.target.files));
+  if (input.files && input.files.length > 0) {
+    this.selectedFile = input.files[0];
+    this.files.push(this.selectedFile);
+  }
+}
+createFormData(flow: Flows): FormData{
+  const formData = new FormData();
+  this.files.forEach((file) => {
+    formData.append('files', file);
+  });
+  formData.append('flow', JSON.stringify(flow));
+
+  console.log('FormData creado:', formData);
+  return formData;
+/*
+  this.archivosService.uploadImage(formData).subscribe({
+    next: (response) =>{
+      console.log('Imagen subida con éxito:', response)
+      console.log('URL de la imagen:', response.files[0].url);
+      
+      this.NewMensaje.content.body = response.files[0].url;
+    },
+    error: (error) => console.error('Error al subir la imagen:', error)
+  });
+  */
+  }
   CrearFlow() {
     if (this.NewFlow.name == '') {
       Swal.fire({
@@ -99,7 +141,10 @@ export class NewflowComponent implements OnInit {
       return;
     }
     this.parsearTexArea();
-    this.flowsServices.create(this.NewFlow).subscribe((res) => {
+    const form = this.createFormData(this.NewFlow);
+
+
+    this.flowsServices.create(form).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
         text: res.message,

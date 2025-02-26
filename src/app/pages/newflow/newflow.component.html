@@ -37,12 +37,18 @@
       <option value="documento">documento</option>
     </select>
     <label class="block text-black" for="contentbody">body:</label>
-    <textarea
-      name="contentbody"
-      id="contentbody"
-      class="styletextarea rounded-md text-black"
-      [(ngModel)]="NewMensaje.content.body"
-    ></textarea>
+    @if( NewMensaje.tipo == "texto"){
+      <textarea
+        name="contentbody"
+        id="contentbody"
+        class="styletextarea rounded-md text-black"
+        [(ngModel)]="NewMensaje.content.body"
+      ></textarea>
+    }
+
+    @if (NewMensaje.tipo != "texto") {
+      <input  multiple (change)="onFileSelected($event)" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file" name="files" type="file">
+    }
 
     @if (NewMensaje.tipo != "texto") {
     <label class="block text-black" for="contentfooter">footer:</label>
