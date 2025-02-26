@@ -5,10 +5,11 @@ import { ReportsService } from '../../services/reports.service';
 import { Mensaje } from '../../interfaces/Mensaje';
 import { ModalComponent } from "../../component/modal/modal.component";
 import { Flows } from '../../interfaces/Flows';
+import { CardmensajesComponent } from "../../component/cardmensajes/cardmensajes.component";
 
 @Component({
   selector: 'app-asignacion',
-  imports: [FormsModule, RouterLink, ModalComponent],
+  imports: [FormsModule, RouterLink, ModalComponent, CardmensajesComponent],
   templateUrl: './asignacion.component.html',
   styleUrl: './asignacion.component.css',
 })

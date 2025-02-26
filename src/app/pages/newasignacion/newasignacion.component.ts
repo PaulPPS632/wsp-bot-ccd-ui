@@ -81,7 +81,7 @@ export class NewasignacionComponent {
       this.modalconfigurar();
     })
   }
-  SendAsignacion() {
+  /* SendAsignacion() {
     this.toogleLoader();
     this.parsearTexArea();
     this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe({
@@ -99,7 +99,31 @@ export class NewasignacionComponent {
         this.toogleLoader();
       }
     });
+  } */
+
+    SendAsignacion() {
+      this.toogleLoader(); // Activa el loader
+      this.parsearTexArea();
+      this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe({
+          next: (res) => {
+              this.RequestConrretoyLimpiar(res.message);
+              this.toogleLoader(); // Desactiva el loader antes de la recarga
+              setTimeout(() => {
+                  window.location.reload(); // Recargar después de 2 segundos
+              }, 2000);
+          },
+          error: (err) => {
+              Swal.fire({
+                  title: 'ERROR',
+                  text: err.message,
+                  icon: 'error',
+                  timer: 1500,
+              });
+              this.toogleLoader(); // Asegura que el loader se oculta en caso de error
+          }
+      });
   }
+
   toogleLoader(){
     this.flagLoader = !this.flagLoader
   }
