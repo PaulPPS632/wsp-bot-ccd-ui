@@ -13,7 +13,7 @@ export class AsignacionComponent implements OnInit {
 
   asignaciones: any[]=[];
   reportsServices = inject(ReportsService);
-
+  modalFlow: boolean = false;
   ngOnInit(): void {
     this.cargar();
   }
@@ -21,5 +21,8 @@ export class AsignacionComponent implements OnInit {
     this.reportsServices.asignaciones().subscribe((res) => {
       this.asignaciones = res.asignaciones;
     })
+  }
+  toggleModalFlow(){
+    this.modalFlow
   }
 }
