@@ -98,27 +98,27 @@ export class NewflowComponent implements OnInit {
     this.toggleflagModalNewMensaje();
   }
 
-async onFileSelected(event: any): Promise<void>{
-  const selectedFiles = event.target.files;
-  if (selectedFiles && selectedFiles.length > 0) {
-    const formData = new FormData();
-    
-    // Limitar a solo un archivo
-    const file = selectedFiles[0]; 
-    formData.append('files', file);
-    console.log(file);
-    // Enviar el archivo al backend
-    this.flagLoader = true;
-    const url = await this.uploadFile(formData).then(
-      res => {
-        this.flagLoader = false;
-        return res
-    });
-    if(url){
-      this.NewMensaje.content.body = url;
+  onFileSelected(event: Event): void {
+    const selectedFiles = event.target.files;
+    if (selectedFiles && selectedFiles.length > 0) {
+      const formData = new FormData();
+      
+      // Limitar a solo un archivo
+      const file = selectedFiles[0]; 
+      formData.append('files', file);
+      console.log(file);
+      // Enviar el archivo al backend
+      this.flagLoader = true;
+      const url = await this.uploadFile(formData).then(
+        res => {
+          this.flagLoader = false;
+          return res
+      });
+      if(url){
+        this.NewMensaje.content.body = url;
+      }
     }
   }
-}
 async uploadFile(form: FormData): Promise<string>{
   try {
     const response = await lastValueFrom(this.archivosService.uploadImage(form));
@@ -139,6 +139,10 @@ async uploadFile(form: FormData): Promise<string>{
       return;
     }
     this.parsearTexArea();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5a25fbdaae9e32dfcf43eb9af2d095050e14e48d
     this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
