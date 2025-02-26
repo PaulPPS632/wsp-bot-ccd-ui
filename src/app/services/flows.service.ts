@@ -14,8 +14,8 @@ export class FlowsService {
   headers = new HttpHeaders({
     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
   })
-    create(data: FormData): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}`, { data },{headers: this.headers});
+    create(flow: Flows): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}`, { flow },{headers: this.headers});
     }
     delete(id: number): Observable<any> {
       return this.http.delete<any>(`${this.apiUrl}/${id}`,{headers: this.headers});

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ArchivosService {
 
   http = inject(HttpClient);
-  apiUrl: string = `http://${window.location.hostname}:3000/api/upload`;
+  apiUrl: string = `http://${window.location.hostname}:8000/api/archivos`;
 
   uploadImage1(file: File, fileTypeId: number): Promise<any> {
     const formData = new FormData();

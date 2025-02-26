@@ -30,6 +30,7 @@
       id="tipo"
       [(ngModel)]="NewMensaje.tipo"
       class="w-40 rounded-md text-lg h-fit text-black"
+      (change)="limpiarBodyNewMensaje()"
     >
       <option value="texto">texto</option>
       <option value="imagen">imagen</option>
@@ -37,7 +38,14 @@
       <option value="documento">documento</option>
     </select>
     <label class="block text-black" for="contentbody">body:</label>
-    @if( NewMensaje.tipo == "texto"){
+    @if (NewMensaje.tipo == "imagen") {
+      <img [src]="NewMensaje.content.body" alt="una imagen" class="h-56 object-contain mx-auto rounded-md">
+    }@else if (NewMensaje.tipo == "video") {
+      <video [src]="NewMensaje.content.body" controls></video>
+    }@else if(NewMensaje.tipo == "documento"){
+      <iframe [src]="sanitizedBody" class="min-h-96  w-full"></iframe>
+    }
+    @if(NewMensaje.tipo == "texto"){
       <textarea
         name="contentbody"
         id="contentbody"
@@ -45,9 +53,13 @@
         [(ngModel)]="NewMensaje.content.body"
       ></textarea>
     }
-
     @if (NewMensaje.tipo != "texto") {
-      <input  multiple (change)="onFileSelected($event)" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file" name="files" type="file">
+      <input 
+      (change)="onFileSelected($event)" 
+      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+      id="file" name="files" type="file"
+      [accept]="NewMensaje.tipo == 'imagen' ? 'image/*' : NewMensaje.tipo == 'video' ? 'video/*':'.pdf'"
+      >
     }
 
     @if (NewMensaje.tipo != "texto") {
@@ -96,4 +108,6 @@
     </div>
   }
 </article>
+
+<app-loader [(isOpen)]="flagLoader"></app-loader>
 

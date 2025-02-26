@@ -15,7 +15,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 import { ArchivosService } from '../../services/archivos.service';
-
+import { lastValueFrom } from 'rxjs';
+import { LoaderComponent } from "../../component/loader/loader.component";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-newflow',
   imports: [
@@ -24,7 +26,8 @@ import { ArchivosService } from '../../services/archivos.service';
     CardmensajesComponent,
     CdkDropList,
     CdkDrag,
-  ],
+    LoaderComponent
+],
   templateUrl: './newflow.component.html',
   styleUrl: './newflow.component.css',
 })
@@ -34,6 +37,8 @@ export class NewflowComponent implements OnInit {
   router = inject(ActivatedRoute);
   flowsServices = inject(FlowsService);
   archivosService = inject(ArchivosService);
+  sanitizer = inject(DomSanitizer);
+
   flagModalNewMensaje: boolean = false;
   CurrentFlows: Flows[] = [];
   flagCursos: boolean = false;
@@ -53,7 +58,7 @@ export class NewflowComponent implements OnInit {
       footer: '',
     },
   };
-  selectedFile: File | null = null;
+  flagLoader: boolean = false;
   ngOnInit(): void {
     this.router.queryParams.subscribe((params) => {
       this.clonar = params['clonar'] === 'true';
@@ -92,44 +97,37 @@ export class NewflowComponent implements OnInit {
     };
     this.toggleflagModalNewMensaje();
   }
+
+async onFileSelected(event: any): Promise<void>{
+  const selectedFiles = event.target.files;
+  if (selectedFiles && selectedFiles.length > 0) {
+    const formData = new FormData();
     
-/*
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    let res = this.archivosService.uploadImage(this.selectedFile!);
-    console.log(res);
-  }
-*/
-files: File[]=[];
-onFileSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  this.files.push(Array.from(event.target.files));
-  if (input.files && input.files.length > 0) {
-    this.selectedFile = input.files[0];
-    this.files.push(this.selectedFile);
+    // Limitar a solo un archivo
+    const file = selectedFiles[0]; 
+    formData.append('files', file);
+    console.log(file);
+    // Enviar el archivo al backend
+    this.flagLoader = true;
+    const url = await this.uploadFile(formData).then(
+      res => {
+        this.flagLoader = false;
+        return res
+    });
+    if(url){
+      this.NewMensaje.content.body = url;
+    }
   }
 }
-createFormData(flow: Flows): FormData{
-  const formData = new FormData();
-  this.files.forEach((file) => {
-    formData.append('files', file);
-  });
-  formData.append('flow', JSON.stringify(flow));
-
-  console.log('FormData creado:', formData);
-  return formData;
-/*
-  this.archivosService.uploadImage(formData).subscribe({
-    next: (response) =>{
-      console.log('Imagen subida con éxito:', response)
-      console.log('URL de la imagen:', response.files[0].url);
-      
-      this.NewMensaje.content.body = response.files[0].url;
-    },
-    error: (error) => console.error('Error al subir la imagen:', error)
-  });
-  */
+async uploadFile(form: FormData): Promise<string>{
+  try {
+    const response = await lastValueFrom(this.archivosService.uploadImage(form));
+    return response.fileUrl;
+  } catch (error) {
+    console.error('Error al subir el archivo:', error);
+    return ''; 
   }
+}
   CrearFlow() {
     if (this.NewFlow.name == '') {
       Swal.fire({
@@ -141,10 +139,7 @@ createFormData(flow: Flows): FormData{
       return;
     }
     this.parsearTexArea();
-    const form = this.createFormData(this.NewFlow);
-
-
-    this.flowsServices.create(form).subscribe((res) => {
+    this.flowsServices.create(this.NewFlow).subscribe((res) => {
       Swal.fire({
         title: 'ESTADO',
         text: res.message,
@@ -200,5 +195,13 @@ createFormData(flow: Flows): FormData{
       console.log(cursoslist.length === 0 ? null : cursoslist);
     this.NewFlow.cursos = cursoslist.length === 0 ? null : cursoslist;
     // 🔹 Enviar los datos al servicio
+  }
+  get sanitizedBody(): SafeResourceUrl {
+    return typeof this.NewMensaje.content.body === 'string' 
+      ? this.sanitizer.bypassSecurityTrustResourceUrl(this.NewMensaje.content.body)
+      : this.NewMensaje.content.body;
+  }
+  limpiarBodyNewMensaje(){
+    this.NewMensaje.content.body = '';
   }
 }
