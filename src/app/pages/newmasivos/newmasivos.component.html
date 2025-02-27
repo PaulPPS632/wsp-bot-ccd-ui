@@ -48,11 +48,11 @@
         class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-full min-h-96"
         cdkDropList
         id="selectedList"
-        [cdkDropListData]="selectedFlows"
+        [cdkDropListData]="masivo.flows"
         [cdkDropListConnectedTo]="['initList']"
         (cdkDropListDropped)="drop($event)"
         >
-            @for (flow of selectedFlows; track $index) {
+            @for (flow of masivo.flows; track $index) {
                 <app-card-flows cdkDrag [flow]="flow"/>
             }
         </div>

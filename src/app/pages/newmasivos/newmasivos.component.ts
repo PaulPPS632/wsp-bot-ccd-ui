@@ -75,7 +75,13 @@ export class NewmasivosComponent implements OnInit {
 
   flowSelect(id: number){
     //this.NewAsignacion.flow = this.flows.find((flow) => flow.id == id);
-    this.selectedFlows.push(this.listaFlows.find((flow) => flow.id == id)!)
+    const selected = this.listaFlows.find((flow) => flow.id == id)!;
+    console.log(selected);
+    
+    this.masivo.flows.push(selected)
+    console.log(this.masivo);
+    
+
   }
 
   // Método para procesar el archivo Excel
@@ -217,6 +223,7 @@ export class NewmasivosComponent implements OnInit {
     }else{
       const numerosParseados = this.validNumbers.map(num => parseInt(num));
       console.log("Usando excel");
+      this.toogleLoader();
       this.masivosService.sendMasivosExcel(this.masivo, numerosParseados).subscribe((res) => {
         
         Swal.fire({
