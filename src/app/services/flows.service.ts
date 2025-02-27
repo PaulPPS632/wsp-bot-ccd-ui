@@ -27,8 +27,8 @@ export class FlowsService {
     getById(id: string):Observable<any>{
       return this.http.get<any>(`${this.apiUrl}/${id}`,{headers: this.headers});
     }
-    search(search: string): Observable<any>{
-      return this.http.post<any>(`${this.apiUrl}/search`, {
+    search(search: string, flagMasivos: boolean): Observable<any>{
+      return this.http.post<any>(`${this.apiUrl}/search?masivos=${flagMasivos}`, {
         search
       },{headers: this.headers})
     }

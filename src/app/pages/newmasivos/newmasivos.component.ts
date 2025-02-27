@@ -46,7 +46,6 @@ export class NewmasivosComponent implements OnInit {
   invalidNumbersText: string = ''; // Variable para almacenar el contenido del textarea
   ngOnInit(): void {
     this.cargarcantRespantes()
-    this.cargarFlows();
     this.flowSearch('');
   }
   drop(event: CdkDragDrop<Flows[]>){
@@ -62,13 +61,13 @@ export class NewmasivosComponent implements OnInit {
     }
   }
   cargarFlows(){
-    this.flowsService.listar(false).subscribe((res) => {
+    this.flowsService.listar(true).subscribe((res) => {
       this.listaFlows = res.flows;
     })
   }
 
   flowSearch(searchFlow: string){
-    this.flowsService.search(searchFlow).subscribe((res) => {
+    this.flowsService.search(searchFlow, true).subscribe((res) => {
       this.listaFlows = res.flows;
     });
   }

@@ -25,11 +25,11 @@ export class FlowsComponent implements OnInit {
       const inputElement = event.target as HTMLInputElement;
       const selectedText = inputElement.value.toLowerCase();
   
-      this.flowsServices.search(selectedText).subscribe((res) => {
+      this.flowsServices.search(selectedText, false).subscribe((res) => {
         this.CurrentFlows = res.flows;
       });
     }else{
-      this.flowsServices.search(event).subscribe((res) => {
+      this.flowsServices.search(event, false).subscribe((res) => {
         this.CurrentFlows = res.flows;
       });
     }
