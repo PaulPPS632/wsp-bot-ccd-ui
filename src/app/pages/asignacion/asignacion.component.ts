@@ -6,6 +6,8 @@ import { Mensaje } from '../../interfaces/Mensaje';
 import { ModalComponent } from "../../component/modal/modal.component";
 import { Flows } from '../../interfaces/Flows';
 import { CardmensajesComponent } from "../../component/cardmensajes/cardmensajes.component";
+import { AsignacionesService } from '../../services/asignaciones.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-asignacion',
@@ -17,8 +19,14 @@ export class AsignacionComponent implements OnInit {
 
   asignaciones: any[]=[];
   reportsServices = inject(ReportsService);
+  asignacionesService = inject(AsignacionesService);
   modalFlow: boolean = false;
   currentflow: Flows| undefined;
+  searchcurrent: string = '';
+  page: number = 1;
+  limit: number = 10;
+  totalPages: number = 0;
+  
   ngOnInit(): void {
     this.cargar();
   }
@@ -32,4 +40,19 @@ export class AsignacionComponent implements OnInit {
     this.currentflow = flow;
     console.log(flow);
   }
+  search(){
+    this.asignacionesService.searchAsignacion(this.searchcurrent).subscribe({
+      next: (res) =>{
+        this.asignaciones = res.asignaciones;
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'ERROR',
+          icon: 'error',
+          text: `error al buscar: ${this.searchcurrent}`
+        })
+      }
+    })
+  }
 }
+

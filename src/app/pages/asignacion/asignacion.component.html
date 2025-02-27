@@ -1,11 +1,34 @@
 <div class="bg-gradient-to-r from-[#111f42] to-[#39a0fe]">
   <h2 class="text-2xl font-bold p-4 text-white text-center">ASIGNACIONES REGISTRADOS</h2>
 </div>
-<div class="w-full flex h-16 items-center justify-end">
+<!-- <div class="w-full flex h-16 items-center justify-end">
   <button class="px-4 py-1 text-white bg-[#111f42] hover:text-[#111f42] border-[#111f42] border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
   [routerLink]="['/newasignacion']"
   >NUEVA ASIGNACION</button>
+</div> -->
+<div class="w-full flex h-16 items-center justify-between px-4">
+  <!-- Barra de búsqueda -->
+  <div class="flex items-center space-x-2">
+    <input 
+      type="text" 
+      placeholder="Buscar Por Nombres" 
+      [(ngModel)]="searchcurrent"
+      (keydown.enter)="search()"
+      class="px-4 py-2 text-lg border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-64"/>
+      <!-- [(ngModel)]="searchTerm -->
+    <button 
+    (click)="search()"
+      class="px-5 py-2 text-lg font-bold text-white bg-[#111f42] hover:bg-[#243e81] rounded-lg transition-all shadow-md">
+      Buscar
+    </button>
+  </div>
+
+  <button class="px-4 py-1 text-white bg-[#111f42] hover:text-[#395396] border-[#111f42] border-2 hover:bg-white hover:cursor-pointer w-fit h-10 rounded-md text-sm font-bold transition-all"
+    [routerLink]="['/newasignacion']">
+    NUEVA ASIGNACION
+  </button>
 </div>
+
 <article class="">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table
@@ -48,9 +71,17 @@
               </td>
               
               <td class="px-6 py-4">
-                <button (click)="toggleModalFlow(asignacion.currentflow)" class="px-4 py-2 bg-green-200">
+                <!-- <button (click)="toggleModalFlow(asignacion.currentflow)" class="px-4 py-2 bg-blue-500">
+                  {{ asignacion.flowname }}
+                </button> -->
+                <button 
+                  (click)="toggleModalFlow(asignacion.currentflow)" 
+                  class="w-[180px] px-4 py-2 bg-[#2b51b1] text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-blue-500 hover:shadow-lg active:scale-95 break-words whitespace-normal text-center"
+                >
                   {{ asignacion.flowname }}
                 </button>
+
+
               </td>
               <td class="px-6 py-4">
                 {{ asignacion.usuario }}
@@ -72,25 +103,43 @@
             }
           </tbody>
         </table>
-      </div>
+    </div>
+    <div class="w-full my-4 flex items-center justify-center">
+      <nav aria-label="Page navigation example">
+        <ul class="inline-flex -space-x-px text-base h-10">
+          <li>
+            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+          </li>
+          <li>
+            <a href="#" aria-current="page" class="flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+      
 </article>
 
- <app-modal [(isOpen)]="modalFlow">
-  <div class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[80vh] overflow-y-auto">
-      <h2 class="text-lg font-semibold text-gray-800 mb-4 text-center">Ventana de información</h2>
-
-      <div class="space-y-3">
-        @for (item of currentflow?.mensajes; track $index) {
-          <app-cardmensajes [mensaje]="item" [posicion]="$index"/>
-        }
-      </div>
-
-      <button 
-        class="mt-4 w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 block mx-auto"
-        (click)="modalFlow = false">
-        Cerrar
-      </button>
+ <app-modal [(isOpen)]="modalFlow" [title]="'FLOW ENVIADO'">
+  <div class="flex items-center justify-center w-fit">
+    <div class="flex flex-col items-center justify-center overflow-y-auto gap-11">
+      @for (item of currentflow?.mensajes; track $index) {
+        <app-cardmensajes [mensaje]="item" [posicion]="$index"/>
+      }
     </div>
   </div>
 </app-modal>

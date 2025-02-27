@@ -9,7 +9,7 @@ import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, AfterVie
 })
 export class ModalComponent implements OnChanges{
   @Input() isOpen: boolean = false;
-  @Input() title: string = 'Modal Title';
+  @Input() title: string = 'Mensajes enviados';
   @Output() isOpenChange = new EventEmitter<boolean>();
   @ViewChild('modal') modal?: ElementRef;
   ngOnChanges(changes: SimpleChanges): void {

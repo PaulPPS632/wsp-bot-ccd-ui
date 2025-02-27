@@ -102,6 +102,16 @@ export class NewasignacionComponent {
   } */
 
     SendAsignacion() {
+      if(this.NewAsignacion.name == '' || this.NewAsignacion.name == null){
+        
+        Swal.fire({
+          title:'ERROR',
+          text: 'No puedes enviar una asignacion sin nombre',
+          icon: 'warning',
+          timer: 1000
+        })
+        return
+      }
       this.toogleLoader(); // Activa el loader
       this.parsearTexArea();
       this.asignacionesService.SendAsignaciones(this.NewAsignacion).subscribe({
