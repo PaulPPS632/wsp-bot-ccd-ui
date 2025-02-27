@@ -118,7 +118,7 @@ export class NewmasivosComponent implements OnInit {
     numbers.forEach(num => {
       const trimmedNum = num.toString().trim();
 
-      if (/^\+?51\d{9}$/.test(trimmedNum)) {
+      if (/^51\d{9}$/.test(trimmedNum)) {
         this.validNumbers.push(trimmedNum); // ✅ Número válido con prefijo
       } else if (/^\d{9}$/.test(trimmedNum)) {
         this.validNumbers.push(`51${trimmedNum}`); // ➕ Agregar "51" si el número tiene 9 dígitos
@@ -147,6 +147,7 @@ export class NewmasivosComponent implements OnInit {
     }
 
     console.log("Números válidos:", this.validNumbers);
+    this.masivo.cant = this.validNumbers.length;
     console.log("Números inválidos:", this.invalidNumbers);
   }
 
@@ -159,7 +160,7 @@ export class NewmasivosComponent implements OnInit {
     numerosEditados.forEach(num => {
       const trimmedNum = num.toString().trim();
 
-      if (/^\+?51\d{9}$/.test(trimmedNum)) {
+      if (/^51\d{9}$/.test(trimmedNum)) {
         nuevosValidos.push(trimmedNum); // ✅ Número válido con prefijo
       } else if (/^\d{9}$/.test(trimmedNum)) {
         nuevosValidos.push(`51${trimmedNum}`); // ➕ Agregar "51" si el número tiene 9 dígitos
@@ -167,7 +168,6 @@ export class NewmasivosComponent implements OnInit {
         nuevosInvalidos.push(trimmedNum); // ❌ Número inválido
       }
     });
-
 
     this.validNumbers = [...this.validNumbers, ...nuevosValidos]; 
     this.invalidNumbers = nuevosInvalidos; 
@@ -181,7 +181,13 @@ export class NewmasivosComponent implements OnInit {
         icon: "success"
       });
       console.log("Números válidos:", this.validNumbers);
-      
+      this.masivo.cant = this.validNumbers.length;
+    }else{
+      Swal.fire({
+        title: "Numeros invalidos",
+        text: `verifica los numeros porfavor`,
+        icon: "error"
+      });
     }
   }
 

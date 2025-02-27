@@ -61,7 +61,7 @@
     <div class="w-1/2 ">
         <div class="flex items-center gap-2">
             <label class="text-xl" for="">Cargar Excel:</label>
-            <input (change)="toggleInputExcel()" type="checkbox" name="" id="">
+            <input (change)="toggleInputExcel()" type="checkbox" name="" id=""  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
         </div>
         @if(isActive){                
             <input (change)="procesarExcel($event)" accept=".xlsx, .xls" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">

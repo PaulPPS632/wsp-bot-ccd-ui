@@ -23,6 +23,7 @@
               <th scope="col" class="px-6 py-3 text-white">Bot Cel.</th>
               <th scope="col" class="px-6 py-3 text-white">Flow</th>
               <th scope="col" class="px-6 py-3 text-white">Usuario</th>
+              <th scope="col" class="px-6 py-3 text-white">ESTADO</th>
               <th scope="col" class="px-6 py-3 text-white">Accion</th>
             </tr>
           </thead>
@@ -54,6 +55,11 @@
               </td>
               <td class="px-6 py-4">
                 {{ asignacion.usuario }}
+              </td>
+              <td class="px-6 py-4">
+                <div [ngClass]="getStatusClass(asignacion.status)" class="text-center py-1 font-bold rounded-md">
+                  {{ asignacion.status }}
+                </div>
               </td>
               <td class="px-6 py-4">
                 <svg 
