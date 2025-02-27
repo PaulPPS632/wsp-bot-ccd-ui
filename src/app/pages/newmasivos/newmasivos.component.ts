@@ -191,30 +191,29 @@ export class NewmasivosComponent implements OnInit {
 
 
   SendMasivos() {
-    this.masivo.flows = this.selectedFlows;
-    this.toogleLoader();
-    this.masivosService.sendmasivos(this.masivo).subscribe((res) => {
-      Swal.fire({
-        title: 'ESTADO',
-        text: res.message,
-        icon: 'success',
-        timer: 1500,
-      });
-      
-<<<<<<< Updated upstream
-      this.selectedFlows = [];
-      this.masivo = {
-        name: "",
-        cant: 0,
-        delaymin: 0,
-        delaymax: 30,
-        flows: [],
-      };
+    if(!this.isActive){
+      this.masivo.flows = this.selectedFlows;
       this.toogleLoader();
-      this.cargarcantRespantes();
-      this.cargarFlows();
-    });
-=======
+      this.masivosService.sendmasivos(this.masivo).subscribe((res) => {
+        Swal.fire({
+          title: 'ESTADO',
+          text: res.message,
+          icon: 'success',
+          timer: 1500,
+        });
+        
+        this.selectedFlows = [];
+        this.masivo = {
+          name: "",
+          cant: 0,
+          delaymin: 0,
+          delaymax: 30,
+          flows: [],
+        };
+        this.toogleLoader();
+        this.cargarcantRespantes();
+        this.cargarFlows();
+      });
     }else{
       const numerosParseados = this.validNumbers.map(num => parseInt(num));
       console.log("Usando excel");
@@ -239,7 +238,6 @@ export class NewmasivosComponent implements OnInit {
         this.cargarFlows();
       });
     }
->>>>>>> Stashed changes
   }
   toogleLoader(){
     this.flagLoader = !this.flagLoader
