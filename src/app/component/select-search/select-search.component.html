@@ -1,9 +1,11 @@
 <div class="mb-6 w-full min-w-80">
+  @if (withLabel) {
     <label
       for="entidad"
       class="block mb-2 text-base text-white"
       >{{ title }}</label
     >
+  }
     <div class="flex flex-row items-center justify-between gap-2 w-full">
       <div class="relative w-full max-w-96">
         <div

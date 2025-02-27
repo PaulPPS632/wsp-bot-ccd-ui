@@ -41,7 +41,9 @@ export class NewmasivosComponent implements OnInit {
   };
   flagLoader: boolean = false;
   isActive: boolean = false;
-  numerosParseados: number[] = [];
+  validNumbers: string[] = [];
+  invalidNumbers: string[] = [];
+  invalidNumbersText: string = ''; // Variable para almacenar el contenido del textarea
   ngOnInit(): void {
     this.cargarcantRespantes()
     this.cargarFlows();
@@ -76,88 +78,115 @@ export class NewmasivosComponent implements OnInit {
     this.selectedFlows.push(this.listaFlows.find((flow) => flow.id == id)!)
   }
 
+  // Método para procesar el archivo Excel
   procesarExcel(event: any) {
     const file = event.target.files[0];
     if (!file) {
-      Swal.fire({
-        title: "Error",
-        text: "Por favor, selecciona un archivo.",
-        icon: "error"
-      });
+      this.mostrarError("Por favor, selecciona un archivo.");
       return;
     }
-  
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
-      
-      // Tomar la primera hoja del archivo
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-  
-      // Convertir a JSON
       const rawNumbers: any[] = XLSX.utils.sheet_to_json(sheet, { header: 1 }).flat();
-      
-      // Llamar a la función de formateo
       this.procesarNumero(rawNumbers);
     };
     reader.readAsArrayBuffer(file);
   }
-  
-  parsearNumeros(numbers: string[]): { validNumbers: string[], invalidNumbers: string[] } {
-    let validNumbers: string[] = [];
-    let invalidNumbers: string[] = [];
-  
-    numbers.forEach(num => {
-      num = num.toString().trim();
-  
-      if (/^\+?51\d{9}$/.test(num)) {
-        validNumbers.push(num); // ✅ Ya tiene el prefijo, lo dejamos igual
-      } else if (/^\d{9}$/.test(num)) {
-        validNumbers.push(`51${num}`); // ➕ Agregar "51" si el número tiene solo 9 dígitos
-      } else {
-        invalidNumbers.push(num); // ❌ Número inválido
-      }
-    });
-  
-    return { validNumbers, invalidNumbers };
-  }
-  
+
+  // Método para procesar los números
   procesarNumero(numbers: any[]) {
-    if (!numbers || numbers.length === 0) {
-      Swal.fire({
-        title: "Error",
-        text: "No se encontraron números en el archivo.",
-        icon: "error"
-      });
+    if (!numbers?.length) {
+      this.mostrarError("No se encontraron números en el archivo.");
       return;
     }
-  
-    // Llamar a la función que formatea los números
-    const { validNumbers, invalidNumbers } = this.parsearNumeros(numbers);
-  
-    // Mostrar alerta con los números inválidos si hay
-    if (invalidNumbers.length > 0) {
+
+    // Reiniciar los arrays de números válidos e inválidos
+    this.validNumbers = [];
+    this.invalidNumbers = [];
+
+    // Validar cada número
+    numbers.forEach(num => {
+      const trimmedNum = num.toString().trim();
+
+      if (/^\+?51\d{9}$/.test(trimmedNum)) {
+        this.validNumbers.push(trimmedNum); // ✅ Número válido con prefijo
+      } else if (/^\d{9}$/.test(trimmedNum)) {
+        this.validNumbers.push(`51${trimmedNum}`); // ➕ Agregar "51" si el número tiene 9 dígitos
+      } else {
+        this.invalidNumbers.push(trimmedNum); // ❌ Número inválido
+      }
+    });
+
+    // Actualizar el contenido del textarea con los números inválidos
+    this.invalidNumbersText = this.invalidNumbers.join('\n');
+
+    // Mostrar alerta si hay números inválidos
+    if (this.invalidNumbers.length) {
       Swal.fire({
         title: "Atención",
-        text: `Se encontraron números inválidos: ${invalidNumbers.join(", ")}`,
+        text: `Se encontraron números inválidos: ${this.invalidNumbers.join(", ")}`,
         icon: "warning"
       });
     }
-  
+
     // Verificar si hay al menos un número válido
-    if (validNumbers.length === 0) {
+    if (!this.validNumbers.length) {
       this.toogleLoader();
-      Swal.fire({
-        title: "Error",
-        text: "Ingresa al menos un número válido con 9 dígitos.",
-        icon: "error"
-      });
+      this.mostrarError("Ingresa al menos un número válido con 9 dígitos.");
       return;
     }
-  
-    console.log("Números válidos:", validNumbers);
+
+    console.log("Números válidos:", this.validNumbers);
+    console.log("Números inválidos:", this.invalidNumbers);
+  }
+
+
+  validarNumerosEditados() {
+    const numerosEditados = this.invalidNumbersText.split('\n');
+    const nuevosValidos: string[] = [];
+    const nuevosInvalidos: string[] = [];
+
+    numerosEditados.forEach(num => {
+      const trimmedNum = num.toString().trim();
+
+      if (/^\+?51\d{9}$/.test(trimmedNum)) {
+        nuevosValidos.push(trimmedNum); // ✅ Número válido con prefijo
+      } else if (/^\d{9}$/.test(trimmedNum)) {
+        nuevosValidos.push(`51${trimmedNum}`); // ➕ Agregar "51" si el número tiene 9 dígitos
+      } else {
+        nuevosInvalidos.push(trimmedNum); // ❌ Número inválido
+      }
+    });
+
+
+    this.validNumbers = [...this.validNumbers, ...nuevosValidos]; 
+    this.invalidNumbers = nuevosInvalidos; 
+
+    this.invalidNumbersText = this.invalidNumbers.join('\n');
+
+    if (nuevosValidos.length > 0) {
+      Swal.fire({
+        title: "Éxito",
+        text: `Se movieron ${nuevosValidos.length} números a válidos.`,
+        icon: "success"
+      });
+      console.log("Números válidos:", this.validNumbers);
+      
+    }
+  }
+
+  // Método para mostrar errores
+  mostrarError(mensaje: string) {
+    Swal.fire({
+      title: "Error",
+      text: mensaje,
+      icon: "error"
+    });
   }
 
 
@@ -172,6 +201,7 @@ export class NewmasivosComponent implements OnInit {
         timer: 1500,
       });
       
+<<<<<<< Updated upstream
       this.selectedFlows = [];
       this.masivo = {
         name: "",
@@ -184,6 +214,32 @@ export class NewmasivosComponent implements OnInit {
       this.cargarcantRespantes();
       this.cargarFlows();
     });
+=======
+    }else{
+      const numerosParseados = this.validNumbers.map(num => parseInt(num));
+      console.log("Usando excel");
+      this.masivosService.sendMasivosExcel(this.masivo, numerosParseados).subscribe((res) => {
+        
+        Swal.fire({
+          title: 'ESTADO',
+          text: res.message,
+          icon: 'success',
+          timer: 1500,
+        });
+        this.selectedFlows = [];
+        this.masivo = {
+          name: "",
+          cant: this.validNumbers.length,
+          delaymin: 0,
+          delaymax: 30,
+          flows: [],
+        };
+        this.toogleLoader();
+        this.cargarcantRespantes();
+        this.cargarFlows();
+      });
+    }
+>>>>>>> Stashed changes
   }
   toogleLoader(){
     this.flagLoader = !this.flagLoader
@@ -210,5 +266,9 @@ downloadExcel() {
 }
 toggleInputExcel(){
   this.isActive = !this.isActive
+}
+// Método para convertir el array de números inválidos en una cadena con saltos de línea
+getNumerosInvalidos(): string {
+  return this.invalidNumbers.join('\n');
 }
 }

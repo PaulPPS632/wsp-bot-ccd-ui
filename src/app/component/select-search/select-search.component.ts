@@ -13,6 +13,7 @@ export class SelectSearchComponent implements OnInit {
   @Input() title: string = '';
   @Input() rutacreate: string = '';
   @Input() Tipo: string = 'producto';
+  @Input() withLabel: boolean = true;
 
   @Output() emitterSelectedValue = new EventEmitter<number>();
   @Output() emitterSearchText = new EventEmitter<string>();

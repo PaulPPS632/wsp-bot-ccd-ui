@@ -30,16 +30,26 @@
 </div>
 
 
+<<<<<<< Updated upstream
 <div class="w-full flex p-5 flex-row items-center justify-center gap-5  mt-5">
     <div class="w-1/4">
         <app-select-search 
+=======
+<div class="w-full h-screen flex flex-row items-start justify-center gap-10 sm:p-5 xl:p-14 xl:px-40">
+    <div class="w-1/2">
+        <div>
+            <label class="text-xl">Flows</label>
+            <app-select-search 
+>>>>>>> Stashed changes
           [title]="'Flows'" 
           [Tipo]="'Flow'"
           [rutacreate]="'/flows'"
           [lista]="listaFlows"
+          [withLabel]="false"
           (emitterSearchText)="flowSearch($event)"
           (emitterSelectedValue)="flowSelect($event)"
           />
+        </div>
         <div
         class="flex flex-col flex-nowrap items-center justify-start border border-gray-400 shadow-slate-400 shadow-md p-4 gap-4 rounded-md w-full min-h-96"
         cdkDropList
@@ -54,7 +64,7 @@
         </div>
     </div>
 
-    <div class="w-1/4">
+    <div class="w-1/2 ">
         <div class="flex items-center gap-2">
             <label class="text-xl" for="">Cargar Excel:</label>
             <input (change)="toggleInputExcel()" type="checkbox" name="" id="">
@@ -62,6 +72,13 @@
         @if(isActive){                
             <input (change)="procesarExcel($event)" accept=".xlsx, .xls" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Solo .xlsx</p>
+            @if(invalidNumbers.length > 0){
+                <div class="flex flex-col items-start justify-start gap-2">
+                    <label class="text-red-500 text-xl">Numeros invalidos:</label>
+                    <textarea [(ngModel)]="invalidNumbersText" class="w-full min-h-72 border border-gray-400 shadow-slate-400 shadow-md p-4 rounded-md"></textarea>
+                </div>
+                <button (click)="validarNumerosEditados()" class="p-2 bg-blue-600 rounded-md text-white">Cargar Números</button>
+            }
         }
     </div>
 
