@@ -15,16 +15,13 @@ export class MasivosService {
     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
   })
   sendmasivos(masivos: Masivo): Observable<any> {
-    //numeros: number[]
-    /*
-    if(numeros.length > 0 || numeros){
-      return this.http.post<any>(`${this.apiUrl}/excel`, {masivos, numeros
-      },{headers: this.headers});
-    }
-      */
     return this.http.post<any>(`${this.apiUrl}`, {
       masivos,
     },{headers: this.headers});
+  }
+
+  sendMasivosExcel(masivos: Masivo, numeros: number[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/excel`, {masivos, numeros},{headers: this.headers});
   }
 
   search(search: string): Observable<any>{
