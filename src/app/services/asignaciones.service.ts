@@ -21,7 +21,7 @@ export class AsignacionesService {
   ProgramacionAsignacion (asignaciones: Asignaciones, programacion: string):Observable<any>{
     return this.http.post<any>(`${this.apiUrl}/programacion`, { asignaciones, programacion },{headers: this.headers});
   }
-  searchAsignacion(search: string): Observable<any>{
-    return this.http.post<any>(`${this.apiUrl}/search`, {search});
+  searchAsignacion(search: string, page: number, limit: number): Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/search`, {search, page, limit });
   }
 }

@@ -28,7 +28,7 @@
                 {{ lead.leadPhone }}
               </td>
               <td class="px-6 py-4">
-                {{ lead.fechaenvio.split("T")[0] }}
+                {{ lead.fechaenvio | date:'yyyy-MM-dd HH:mm:ss'}}
               </td>
               <td class="px-6 py-4">
                 <span [ngClass]="getStatusClass(lead.status)" class="text-center py-1 px-2 font-bold rounded-md">

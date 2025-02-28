@@ -1,6 +1,6 @@
 <div class="flex flex-row items-start justify-center w-[500px] min-h-32 rounded-md gap-4 border-gray-200 border-2 h-fit bg-gray-100 p-4 shadow-lg">
   <div class="w-full h-full flex flex-col items-center justify-center gap-4">
-  <span class="text-lg">{{posicion}}º</span>
+  <span class="text-lg text-black font-bold">{{posicion}}º</span>
     <div cdkDragHandle class="cursor-move">
       <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"/>
@@ -10,7 +10,7 @@
   </div>
   <div class="flex flex-col items-start justify-center gap-4 min-w-[380px] max-w-[400px]">
 
-    <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md h-fit text-sm"
+    <select name="tipo" id="tipo" [(ngModel)]="mensaje.tipo" class="w-40 rounded-md h-fit text-sm text-black"
     (change)="limpiarBodyNewMensaje()">
       <option value="texto">texto</option>
       <option value="imagen">imagen</option>
@@ -30,7 +30,7 @@
         <textarea
           name="contentbody"
           id="contentbody"
-          class="styletextarea rounded-md w-full"
+          class="styletextarea rounded-md w-full text-black"
           [(ngModel)]="mensaje.content.body"
         ></textarea>
       </div>
@@ -47,7 +47,7 @@
     <textarea
       name="contentbody"
       id="contentbody"
-      class="styletextarea rounded-md w-full" 
+      class="styletextarea rounded-md w-full text-black" 
       [(ngModel)]="mensaje.content.footer"
     ></textarea>
     }

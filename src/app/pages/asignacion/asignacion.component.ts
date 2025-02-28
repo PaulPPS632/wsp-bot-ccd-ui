@@ -26,14 +26,25 @@ export class AsignacionComponent implements OnInit {
   searchcurrent: string = '';
   page: number = 1;
   limit: number = 10;
-  totalPages: number = 0;
-  
+  totalPages: number[] = [1];
+  currentPage: number = 1;
   ngOnInit(): void {
     this.cargar();
   }
   cargar(){
-    this.reportsServices.asignaciones().subscribe((res) => {
-      this.asignaciones = res.asignaciones;
+    this.asignacionesService.searchAsignacion(this.searchcurrent, 1, 5).subscribe({
+      next: (res) =>{
+        this.asignaciones = res.asignaciones;
+        this.totalPages = Array.from({ length: res.pages }, (_, i) => i + 1);
+         this.currentPage = 1;
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'ERROR',
+          icon: 'error',
+          text: `error al buscar: ${this.searchcurrent}`
+        })
+      }
     })
   }
   toggleModalFlow(flow: Flows){
@@ -41,10 +52,12 @@ export class AsignacionComponent implements OnInit {
     this.currentflow = flow;
     console.log(flow);
   }
-  search(){
-    this.asignacionesService.searchAsignacion(this.searchcurrent).subscribe({
+  search(page: number = 1, limit: number = 5){
+    this.asignacionesService.searchAsignacion(this.searchcurrent, page, limit).subscribe({
       next: (res) =>{
         this.asignaciones = res.asignaciones;
+        this.totalPages = Array.from({ length: res.pages }, (_, i) => i + 1);
+         this.currentPage = page;
       },
       error: (err) => {
         Swal.fire({

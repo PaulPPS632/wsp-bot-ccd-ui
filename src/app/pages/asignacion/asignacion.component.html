@@ -59,7 +59,7 @@
               {{ asignacion.name }}
             </td>
             <td class="px-6 py-4">
-                {{ asignacion.createdAt.split("T")[0] + " " + asignacion.createdAt.split("T")[1].split(".")[0]  }}
+                {{ asignacion.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}
               </td>
               <td class="px-6 py-4">
                 {{ asignacion.amountsend }}
@@ -88,7 +88,7 @@
                 {{ asignacion.usuario }}
               </td>
               <td class="px-6 py-4">
-                <div [ngClass]="getStatusClass(asignacion.status)" class="text-center py-1 font-bold rounded-md">
+                <div [ngClass]="getStatusClass(asignacion.status)" class="text-center py-1 px-2 font-bold rounded-md">
                   {{ asignacion.status }}
                 </div>
               </td>
@@ -111,32 +111,59 @@
         </table>
     </div>
     <div class="w-full my-4 flex items-center justify-center">
+
       <nav aria-label="Page navigation example">
         <ul class="inline-flex -space-x-px text-base h-10">
           <li>
-            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+            <a  (click)="search(currentPage - 1)" [class.opacity-50]="currentPage === 1"
+               class="flex items-center justify-center px-4 h-10 leading-tight text-white bg-blue-800 border border-blue-800 rounded-s-lg hover:bg-blue-700 cursor-pointer"
+               [class.pointer-events-none]="currentPage === 1">
+              Previous
+            </a>
           </li>
+          @for (item of totalPages; track $index) {
+            <li>
+              <a  (click)="search(item)"
+                 [class.text-blue-600]="item === currentPage"
+                 [class.bg-blue-50]="item === currentPage"
+                 [ngClass]="{
+                  'text-blue-600 bg-blue-50 border-blue-600': item === currentPage,
+                  'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700': item !== currentPage
+                }"
+                 class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 cursor-pointer">
+                {{ item }}
+              </a>
+            </li>
+          }
           <li>
-            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-          </li>
-          <li>
-            <a href="#" aria-current="page" class="flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+            <a  (click)="search(currentPage + 1)" [class.opacity-50]="currentPage === totalPages.length"
+               class="flex items-center justify-center px-4 h-10 leading-tight text-white bg-blue-800 border border-blue-800 rounded-e-lg hover:bg-blue-700 cursor-pointer"
+               [class.pointer-events-none]="currentPage === totalPages.length">
+              Next
+            </a>
           </li>
         </ul>
       </nav>
     </div>
+    <!--
+    <div class="flex justify-center items-center my-4">
+  <button 
+    (click)="search(currentPage - 1)" 
+    [disabled]="currentPage === 1"
+    class="px-4 py-2 mx-1 bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50">
+    Anterior
+  </button>
+
+  <span class="px-4 py-2 font-bold">{{ currentPage }} / {{ totalPages }}</span>
+
+  <button 
+    (click)="search(currentPage + 1)" 
+    [disabled]="currentPage === totalPages"
+    class="px-4 py-2 mx-1 bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50">
+    Siguiente
+  </button>
+</div>
+    -->
       
 </article>
 

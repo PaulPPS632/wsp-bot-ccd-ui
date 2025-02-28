@@ -36,7 +36,7 @@
                 {{ masivo.name }}
               </td>
               <td class="px-6 py-4">
-                  {{ masivo.createdAt.split("T")[0] }}
+                  {{ masivo.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}
                 </td>
                 <td class="px-6 py-4">
                   {{ masivo.amountsend }}
@@ -55,7 +55,7 @@
                 </td>
                 
                 <td class="px-6 py-4">
-                  {{ masivo.updatedAt.split("T")[0]  }}
+                  {{ masivo.updatedAt  | date:'yyyy-MM-dd HH:mm:ss' }}
                 </td>
                 <td class="px-6 py-4">
                     <svg 
