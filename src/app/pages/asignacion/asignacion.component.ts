@@ -32,7 +32,7 @@ export class AsignacionComponent implements OnInit {
     this.cargar();
   }
   cargar(){
-    this.asignacionesService.searchAsignacion(this.searchcurrent, 1, 5).subscribe({
+    this.asignacionesService.searchAsignacion(this.searchcurrent, 1, 20).subscribe({
       next: (res) =>{
         this.asignaciones = res.asignaciones;
         this.totalPages = Array.from({ length: res.pages }, (_, i) => i + 1);
@@ -52,7 +52,7 @@ export class AsignacionComponent implements OnInit {
     this.currentflow = flow;
     console.log(flow);
   }
-  search(page: number = 1, limit: number = 5){
+  search(page: number = 1, limit: number = 20){
     this.asignacionesService.searchAsignacion(this.searchcurrent, page, limit).subscribe({
       next: (res) =>{
         this.asignaciones = res.asignaciones;
