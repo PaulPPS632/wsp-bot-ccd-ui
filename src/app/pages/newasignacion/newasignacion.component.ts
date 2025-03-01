@@ -32,6 +32,22 @@ export class NewasignacionComponent {
     numeros:[],
     delaymin: 10,
     delaymax: 30,
+    bot:{
+      id:0,
+      name: '',
+      containerId: '',
+      port: 0,
+      pairingCode: '',
+      phone: '',
+      tipo: '',
+    },
+    flow:{
+      id: 0,
+      name: '',
+      cursos: null,
+      variables: {},
+      mensajes: []
+    }
   }
   numeros: string = ''; 
   flagLoader: boolean = false;
@@ -58,7 +74,7 @@ export class NewasignacionComponent {
     });
   }
   flowSelect(id: number){
-    this.NewAsignacion.flow = this.flows.find((flow) => flow.id == id);
+    this.NewAsignacion.flow = this.flows.find((flow) => flow.id == id)!;
   }
   botSearch(searchBot: string){
     this.botService.search(searchBot,'asignacion').subscribe((res) => {
@@ -66,7 +82,7 @@ export class NewasignacionComponent {
     });
   }
   botSelect(id: number){
-    this.NewAsignacion.bot = this.bots.find((bot) => bot.id == id);
+    this.NewAsignacion.bot = this.bots.find((bot) => bot.id == id)!;
   }
   modalconfigurar(){
     this.flagConfigurar = !this.flagConfigurar;
@@ -118,9 +134,6 @@ export class NewasignacionComponent {
           next: (res) => {
               this.RequestConrretoyLimpiar(res.message);
               this.toogleLoader(); // Desactiva el loader antes de la recarga
-              setTimeout(() => {
-                  window.location.reload(); // Recargar después de 2 segundos
-              }, 2000);
           },
           error: (err) => {
               Swal.fire({
@@ -144,11 +157,28 @@ export class NewasignacionComponent {
       icon: 'success',
       timer: 1500,
     });
+    this.numeros = '';
     this.NewAsignacion = {
-      name:"",
+      name: "",
       numeros:[],
       delaymin: 10,
       delaymax: 30,
+      bot:{
+        id:0,
+        name: '',
+        containerId: '',
+        port: 0,
+        pairingCode: '',
+        phone: '',
+        tipo: '',
+      },
+      flow:{
+        id: 0,
+        name: '',
+        cursos: null,
+        variables: {},
+        mensajes: []
+      }
     }
   }
   parsearTexArea(){

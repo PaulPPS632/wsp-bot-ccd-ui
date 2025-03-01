@@ -7,6 +7,6 @@ export interface Bot{
     phone: string;
     tipo: string;
     status?: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

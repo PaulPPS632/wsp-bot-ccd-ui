@@ -6,7 +6,7 @@ export interface Asignaciones {
     numeros: string[];
     delaymin: number;
     delaymax: number;
-    flow?: Flows;
-    bot?: Bot;
+    flow: Flows;
+    bot: Bot;
 }
 

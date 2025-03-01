@@ -13,6 +13,7 @@
       [lista]="flows"
       (emitterSearchText)="flowSearch($event)"
       (emitterSelectedValue)="flowSelect($event)"
+      [SelectedText]="NewAsignacion.flow.name"
       />
       <!--
       <div>
@@ -32,6 +33,7 @@
       [lista]="bots"
       (emitterSearchText)="botSearch($event)"
       (emitterSelectedValue)="botSelect($event)"
+      [SelectedText]="NewAsignacion.bot.name"
       />
       <!--
       <div>
